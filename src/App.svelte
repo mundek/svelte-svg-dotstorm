@@ -1,11 +1,13 @@
 <script>
 	export let appName;
 	const MARGIN = 10;
-	const HT_WD = 480;
+	const HEIGHT = 600;
+	const WIDTH = 800;
+	const DOT_RADIUS = 10;
 
 	function generateRandCoord(height, width) {
-		let x = (Math.random() * width) + MARGIN;
-		let y = (Math.random() * height) + MARGIN;
+		let x = (Math.random() * width) - (2 * MARGIN);
+		let y = (Math.random() * height) - (2 * MARGIN);
 		return [x, y];
 	}
 	function generateRandCoordinates(height, width, count) {
@@ -20,23 +22,36 @@
 		return coords;
 	}
 	function report(event) {
+		let theID = parseInt(event.target.id);
 		console.log(event.target.id, randomCoordinates[event.target.id]);
+		randomCoordinates = randomCoordinates.slice(0,theID).concat(randomCoordinates.slice(theID+1,randomCoordinates.length))
+		console.log(randomCoordinates);
 	}
 
-	let randomCoordinates = generateRandCoordinates(HT_WD, HT_WD, 10);
+	let randomCoordinates = generateRandCoordinates(
+		HEIGHT - (2 * MARGIN)
+		, WIDTH - (2 * MARGIN)
+		, 6
+		);
 	console.table(randomCoordinates);
 </script>
 
 <main>
 	<h1>App: {appName}!</h1>
-	<svg width="500" height="500">
+	<svg width="{WIDTH}" height="{HEIGHT}" style="background-color:#D80000">
 		{#each randomCoordinates as coords, index}
 			<circle
-				cx="{coords[0]}" cy="{coords[1]}" r="{MARGIN}" stroke="green" stroke-width="4" fill="yellow"
+				cx="{coords[0]}" cy="{coords[1]}" r="{DOT_RADIUS}"
+				stroke="yellow" stroke-width="1" fill="yellow"
 				on:click={report} id={index}
 			/>
 		{/each}
 	</svg>
+	{#if randomCoordinates.length > 0}
+	<p>Keep clicking!</p>
+	{:else}
+	<p>All gone!</p>
+	{/if}
 </main>
 
 <style>
