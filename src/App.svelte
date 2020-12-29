@@ -4,36 +4,32 @@
 	const HEIGHT = 600;
 	const WIDTH = 800;
 	const DOT_RADIUS = 10;
+	const TOTAL_DOTS = 12;
 
-	function generateRandCoord(height, width) {
-		let x = (Math.random() * width) - (2 * MARGIN);
-		let y = (Math.random() * height) - (2 * MARGIN);
-		return [x, y];
-	}
 	function generateRandCoordinates(height, width, count) {
 		let coords = [];
 		for (var i=0; i<count; i++) {
-			// coords.push(generateRandCoord(height,width));
 			coords.push([ 
-				Math.ceil((Math.random() * width) + MARGIN), 
-				Math.ceil((Math.random() * height) + MARGIN)
+				Math.round((Math.random() * (width - (2 * MARGIN)))) + MARGIN, 
+				Math.round((Math.random() * (height - (2 * MARGIN)))) + MARGIN
 			]);
 		}
 		return coords;
 	}
-	function report(event) {
+	function removeDot(event) {
 		let theID = parseInt(event.target.id);
-		console.log(event.target.id, randomCoordinates[event.target.id]);
-		randomCoordinates = randomCoordinates.slice(0,theID).concat(randomCoordinates.slice(theID+1,randomCoordinates.length))
-		console.log(randomCoordinates);
+		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
+		randomCoordinates = randomCoordinates
+								.slice(0,theID)
+								.concat(randomCoordinates.slice(theID+1,randomCoordinates.length))
+		console.table(randomCoordinates);
 	}
 
 	let randomCoordinates = generateRandCoordinates(
 		HEIGHT - (2 * MARGIN)
 		, WIDTH - (2 * MARGIN)
-		, 6
-		);
-	console.table(randomCoordinates);
+		, TOTAL_DOTS );
+	//console.table(randomCoordinates);
 </script>
 
 <main>
@@ -43,14 +39,21 @@
 			<circle
 				cx="{coords[0]}" cy="{coords[1]}" r="{DOT_RADIUS}"
 				stroke="yellow" stroke-width="1" fill="yellow"
-				on:click={report} id={index}
+				on:click={removeDot} id={index}
 			/>
+			<text 
+				x="{coords[0]}" y="{coords[1] - 1}" 
+				stroke="green" stroke-width="1px" 
+				text-anchor="middle" dominant-baseline="central" 
+				pointer-events="none">
+					{index}
+			</text>
 		{/each}
 	</svg>
 	{#if randomCoordinates.length > 0}
-	<p>Keep clicking!</p>
+		<p>Keep clicking: {randomCoordinates.length} more to go!</p>
 	{:else}
-	<p>All gone!</p>
+		<p>All gone!</p>
 	{/if}
 </main>
 
@@ -58,7 +61,7 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
+		max-width: none;
 		margin: 0 auto;
 	}
 
