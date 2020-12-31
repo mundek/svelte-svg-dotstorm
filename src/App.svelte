@@ -1,29 +1,20 @@
 <script>
-	import Activity from './routes/Activity.svelte';
+	// routes provided via svelte store
+	import { routes } from './stores/route-store.js';
+	// routed components must be in the ./routes folder
+	import Router from 'svelte-spa-router';
+
 	export let appName;
 
-	const displaySettings = {
-		width: 700,
-		height: 500,
-		marginParams: {
-			margins: 10,
-			// bottomMargin: 50, // specific margin settings also available
-			// leftMargin: 200 // wdMargins and htMargins (left/right and top/bottom, respectively)
-
-		},
-		backgroundImg: "https://picsum.photos/700/500"
-	}
-
-	const dotSettings = {
-		dotColors: ["yellow", "burlywood", "cornflowerblue", "mediumseagreen"],
-		dotRadius: 6,
-		dotsPerColor: 5
-	}
 </script>
 
 <main>
 	<h1>App: {appName}!</h1>
-	<Activity displayParams={displaySettings} dotParams={dotSettings}></Activity>
+	<div style="width: 800px;">
+		<hr/>
+		<Router routes={$routes}/>
+		<hr/>
+	</div>
 </main>
 
 <style>

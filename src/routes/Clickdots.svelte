@@ -1,23 +1,5 @@
 <script>
-    export let displayParams = {
-        width: 800,
-        height: 600,
-        marginParams: {
-            margins: 0,
-            wdMargin: 0,
-            htMargin: 0,
-            topMargin: 0,
-            rightMargin: 0,
-            bottomMargin: 0,
-            leftMargin: 0
-        },
-        backgroundImg: "https://picsum.photos/800/600"
-    }
-    export let dotParams = {
-        dotColors: ["gold", "burlywood", "coral", "cornflowerblue", "fuchsia", "mediumseagreen"],
-        dotRadius: 6,
-        dotsPerColor: 5
-    }
+	import { displaySettings, currentDotSettings} from '../stores/activity-store.js';
 
 	// internal array to store original list of colors passed to component
 	let startingColors = [];
@@ -28,7 +10,7 @@
 		let currMargins = { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 };
 
 		// if no color object is included or if it is empty, default to one color: pink
-		if (colors.length < 1) colors = ["pink"];
+		// if (colors.length < 1) colors = ["pink"];
 
 		// ternary operators replace the following somewhat longer code to set currMargins based on granularity of the passed-in marginSettings object
 		//
@@ -103,25 +85,27 @@
 	// generate the initial array of random coordinates
 	// constants will be replaced by component parameters (or store values)
 	let randomCoordinates = generateRandCoordinates(
-		displayParams.height
-		, displayParams.width
-		, displayParams.marginParams
-		, dotParams.dotsPerColor
-		, dotParams.dotColors );
+		$displaySettings.height
+		, $displaySettings.width
+		, $displaySettings.marginParams
+		, $currentDotSettings.dotsPerColor
+		, $currentDotSettings.dotColors );
 	//console.table(randomCoordinates);
 </script>
 
 <main>
-	<svg width="{displayParams.width}" height="{displayParams.height}" style="background-color:#D80000">
-		<image href="{displayParams.backgroundImg}" height="{displayParams.height}" width="{displayParams.width}"/>
+	<svg width="{$displaySettings.width}" height="{$displaySettings.height}" style="background-color:#D80000">
+		<image href="{$displaySettings.backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
 		{#each randomCoordinates as coords, index}
 			<circle
-				cx="{coords.x}" cy="{coords.y}" r="{dotParams.dotRadius}"
+				cx="{coords.x}" cy="{coords.y}" r="{$currentDotSettings.dotRadius}"
 				stroke="{coords.color}" stroke-width="1" fill="{coords.color}"
 				on:click={removeDot} id={index}>
+				<!-- debugging code -->	
 				<!-- <title>{index} | {coords.color} | {coords.x}, {coords.y}</title> -->
 			</circle>
-		<!--<text 
+			<!-- debugging code -->
+			<!-- <text 
 				x="{coords[0]}" y="{coords[1] - 1}" 
 				stroke="green" stroke-width="1px" 
 				text-anchor="middle" dominant-baseline="central" 
@@ -135,6 +119,7 @@
 		<p>Total Dots Remaining: {randomCoordinates.length}</p>
 	{:else}
 		<p>All gone!</p>
+		<p>{$currentDotSettings.dotColors}</p>
 	{/if}
 </main>
 
