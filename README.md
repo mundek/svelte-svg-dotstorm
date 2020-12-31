@@ -1,8 +1,4 @@
-*Looking for a shareable component template? Go here --> [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+# SVG Clickdots
 
----
-
-# SVG Dots
-
-This is a toy project to create svelte components that display SVG objects and handle related mouse events.
+This is a project to create svelte components that display SVG objects and handle related mouse events for simple simulations.
 
