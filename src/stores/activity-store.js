@@ -23,8 +23,8 @@ if (!CURRENTMAPSETTINGS.backgroundImg) {
 
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
-    dotRadius: 9,
-    dotsPerColor: 4
+    dotRadius: 6,
+    dotsPerColor: 5
 }
 
 const CURRENTDOTSETTINGS = {

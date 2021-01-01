@@ -1,8 +1,7 @@
 <script>
-    import Router from 'svelte-spa-router';
     import { replace } from 'svelte-spa-router';
 
-	import { displaySettings, currentDotSettings, currentMapSettings} from '../stores/activity-store.js';
+	import { displaySettings, currentDotSettings, currentMapSettings } from '../stores/activity-store.js';
 
 	// In case of browser re-load, return to Start (home/default) route
 	// TODO: In planned multi-map, multi-generational implementation, add store variables to maintain state (progress) through maps and/or generations
@@ -34,15 +33,15 @@
 
 		(marginSettings.rightMargin) ? currMargins.rightMargin = marginSettings.rightMargin
 			: (marginSettings.wdMargins) ? currMargins.rightMargin = marginSettings.wdMargins
-			: (marginSettings.margins) ? currMargins.rightMargin = marginSettings.margins : currMargins.leftMargin = 0;
+			: (marginSettings.margins) ? currMargins.rightMargin = marginSettings.margins : currMargins.rightMargin = 0;
 
 		(marginSettings.topMargin) ? currMargins.topMargin = marginSettings.topMargin
 			: (marginSettings.htMargins) ? currMargins.topMargin = marginSettings.htMargins
-			: (marginSettings.margins) ? currMargins.topMargin = marginSettings.margins : currMargins.leftMargin = 0;
+			: (marginSettings.margins) ? currMargins.topMargin = marginSettings.margins : currMargins.topMargin = 0;
 
 		(marginSettings.bottomMargin) ? currMargins.bottomMargin = marginSettings.bottomMargin
 			: (marginSettings.htMargins) ? currMargins.bottomMargin = marginSettings.htMargins
-			: (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.leftMargin = 0;
+			: (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.bottomMargin = 0;
 
 		// generate the same number of dots for each color passed in, giving each dot random coordinates
 		// NOTE: No checking for full or partial overlap
@@ -56,7 +55,7 @@
 				});
 			}
 		}
-		// console.table(coords);
+		console.table(newDots);
 		return newDots;
 	}
 
