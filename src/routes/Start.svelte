@@ -5,8 +5,9 @@
 
     import { initialDotSettings, currentDotSettings } from '../stores/activity-store.js';
 
-    function startQuiz() {
-        console.table($currentDotSettings);$currentDotSettings = $initialDotSettings;
+    function startActivity() {
+        console.table($currentDotSettings);
+        $currentDotSettings = {...$initialDotSettings};
         console.table($currentDotSettings);
         replace("/activity");
     }
@@ -14,6 +15,6 @@
 
 <main>
     <form>
-        <button on:click|preventDefault="{startQuiz}">Start Quiz</button>
+        <button on:click|preventDefault="{startActivity}">Start Activity</button>
     </form>
 </main>

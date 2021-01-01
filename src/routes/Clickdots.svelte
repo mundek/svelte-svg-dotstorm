@@ -1,8 +1,14 @@
 <script>
-	import { displaySettings, currentDotSettings} from '../stores/activity-store.js';
+    import Router from 'svelte-spa-router';
+    import { replace } from 'svelte-spa-router';
 
-	// internal array to store original list of colors passed to component
-	let startingColors = [];
+	import { displaySettings, currentDotSettings, currentMapSettings} from '../stores/activity-store.js';
+
+	// In case of browser re-load, return to Start (home/default) route
+	// TODO: In planned multi-map, multi-generational implementation, add store variables to maintain state (progress) through maps and/or generations
+	if (!$currentDotSettings.dotRadius) {
+		replace("/");
+	}
 
 	// generate the same number of random coordinates for each color in the array passed to "colors"
 	function generateRandCoordinates(height, width, marginSettings, count, colors) {
@@ -38,10 +44,8 @@
 			: (marginSettings.htMargins) ? currMargins.bottomMargin = marginSettings.htMargins
 			: (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.leftMargin = 0;
 
-		// copy (not reference) array passed into component-internal array to preserve original list for tracking purposes
-		startingColors = [...colors];
-
-		// generate the same number of random coordinates for each color passed in
+		// generate the same number of dots for each color passed in, giving each dot random coordinates
+		// NOTE: No checking for full or partial overlap
 		let newDots = [];
 		for (var i=0; i<colors.length; i++) {
 			for (var j=0; j<count; j++) {
@@ -72,14 +76,14 @@
 	// maintain current count of each dot color in colorCounts[]
 	$: {
         // set colorCounts (of length N) to value 0 (https://stackoverflow.com/questions/4049847/initializing-an-array-with-a-single-value)
-        let counter = startingColors.length;
-        while (counter--) colorCounts[startingColors[counter]] = 0;
+        let counter = $currentDotSettings.dotColors.length;
+        while (counter--) colorCounts[$currentDotSettings.dotColors[counter]] = 0;
 
 		// count total dots of each color
 		for (let i=0; i<randomCoordinates.length; i++) {
 			colorCounts[randomCoordinates[i].color]++;
 		}
-		console.table(colorCounts)
+		// console.table(colorCounts);
 	}
 
 	// generate the initial array of random coordinates
@@ -95,7 +99,7 @@
 
 <main>
 	<svg width="{$displaySettings.width}" height="{$displaySettings.height}" style="background-color:#D80000">
-		<image href="{$displaySettings.backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
+		<image href="{$currentMapSettings.backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
 		{#each randomCoordinates as coords, index}
 			<circle
 				cx="{coords.x}" cy="{coords.y}" r="{$currentDotSettings.dotRadius}"
@@ -105,21 +109,21 @@
 				<!-- <title>{index} | {coords.color} | {coords.x}, {coords.y}</title> -->
 			</circle>
 			<!-- debugging code -->
-			<!-- <text 
-				x="{coords[0]}" y="{coords[1] - 1}" 
+			<text 
+				x="{coords.x}" y="{coords.y - 1}" 
 				stroke="green" stroke-width="1px" 
 				text-anchor="middle" dominant-baseline="central" 
 				pointer-events="none">
 					{index}
-			</text> -->
+			</text>
 		{/each}
 	</svg>
 	{#if randomCoordinates.length > 0}
-		<p>{#each startingColors as aColor, index}&nbsp;&nbsp;#{index} <span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:</span>&nbsp;{colorCounts[aColor]}&nbsp;&nbsp;{#if (index < (startingColors.length - 1))}|{/if}{/each}</p>
+		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{colorCounts[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
 		<p>Total Dots Remaining: {randomCoordinates.length}</p>
 	{:else}
 		<p>All gone!</p>
-		<p>{$currentDotSettings.dotColors}</p>
+		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{colorCounts[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
 	{/if}
 </main>
 

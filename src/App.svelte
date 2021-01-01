@@ -4,13 +4,15 @@
 	// routed components must be in the ./routes folder
 	import Router from 'svelte-spa-router';
 
+	import { displaySettings } from './stores/activity-store.js';
+	// console.log($displaySettings.width);
 	export let appName;
 
 </script>
 
-<main>
+<main style="width: {$displaySettings.width}; height: auto">
 	<h1>App: {appName}!</h1>
-	<div style="width: 800px;">
+	<div>
 		<hr/>
 		<Router routes={$routes}/>
 		<hr/>
