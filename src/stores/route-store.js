@@ -5,7 +5,7 @@ import { writable } from 'svelte/store';
 // in this store. The App.svelte component passes this store object
 // to its routing subcomponent.
 import Start from '../routes/Start.svelte'
-import Activity from '../routes/Clickdots.svelte'
+import Baseline from '../routes/Baseline-Clickdots.svelte'
 import Results from '../routes/Results.svelte'
 import NotFound from '../routes/NotFound.svelte'
 
@@ -14,8 +14,8 @@ export const routes = writable({
     // Exact path
     '/': Start,
 
-    // Using named parameters, with last being optional
-    '/activity': Activity,
+    // Named activity
+    '/baseline': Baseline,
 
     // Wildcard parameter
     '/results': Results,

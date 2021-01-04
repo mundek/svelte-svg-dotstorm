@@ -7,7 +7,7 @@
     function startActivity() {
         // 
         $currentDotSettings = {...$initialDotSettings};
-        replace("/activity");
+        replace("/baseline");
     }
 </script>
 
