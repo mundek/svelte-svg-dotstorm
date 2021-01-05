@@ -7,6 +7,7 @@
     function startActivity() {
         // 
         $currentDotSettings = {...$initialDotSettings};
+        // console.table($currentDotSettings);
         replace("/baseline");
     }
 </script>

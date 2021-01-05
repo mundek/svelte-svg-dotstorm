@@ -1,5 +1,5 @@
 // svelte store functions
-import { readable, writable } from 'svelte/store';
+import { derived, readable, writable } from 'svelte/store';
 // custom array of available scenarios, including routing information for each MAPNAME-Clickdots.svelte component
 import { mapObjects } from './activities.js';
 
@@ -10,8 +10,7 @@ const DISPLAYSETTINGS = {
         margins: 10,
         topMargin: 200, // specific margin settings also available
         // leftMargin: 200 // wdMargins and htMargins (left/right and top/bottom, respectively)
-
-    },
+    }
 }
 
 const CURRENTMAPSETTINGS = {
@@ -26,13 +25,6 @@ const CURRENTMAPSETTINGS = {
     currentGeneration: 0
 }
 
-// use random image of appropriate size if no background image is provided
-// if (!CURRENTMAPSETTINGS.backgroundImg) {
-//     CURRENTMAPSETTINGS.backgroundImg = `https://picsum.photos/${DISPLAYSETTINGS.width}/${DISPLAYSETTINGS.height}`;
-// }
-
-// TODO: Implement flat text file (format TBD) to add selection of environments (map images) and selection processes (shrinking habitable territory, loss of cover, increased mortality from pollution, etc.)
-
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
     dotRadius: 6,
@@ -43,14 +35,13 @@ const CURRENTDOTSETTINGS = {
     dotColors: [],
     dotRadius: 0,
     dotsPerColor: 0,
-    randomCoordinates: [],
+    randomCoordinates: []
 }
 
-
 export const displaySettings = readable(DISPLAYSETTINGS);
+export const currentMapSettings = writable(CURRENTMAPSETTINGS);
 export const initialDotSettings = readable(INITIALDOTSETTINGS);
 export const currentDotSettings = writable(CURRENTDOTSETTINGS);
-export const currentMapSettings = writable(CURRENTMAPSETTINGS);
 
 // generate the same number of random coordinates for each color in the array passed to "colors"
 export function generateRandCoordinates (height, width, marginSettings, count, colors) {
@@ -101,3 +92,21 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     // console.table(newDots);
     return newDots;
 }
+
+// derived value returns totals for each dot color
+export const dotCount = derived(currentDotSettings, $currentDotSettings => {
+    // component-internal array and associated reactive code to track current count of each dot color
+    let counts = [];
+
+    // set colorCounts (of length N) to value 0 (https://stackoverflow.com/questions/4049847/initializing-an-array-with-a-single-value)
+    let counter = $currentDotSettings.dotColors.length;
+    while (counter--) counts[$currentDotSettings.dotColors[counter]] = 0;
+
+    // count total dots of each color if randomCoordinates is not empty
+    if ($currentDotSettings.randomCoordinates) {
+        for (let i=0; i<$currentDotSettings.randomCoordinates.length; i++) {
+            counts[$currentDotSettings.randomCoordinates[i].color]++;
+        }
+    }
+    return counts;
+});
