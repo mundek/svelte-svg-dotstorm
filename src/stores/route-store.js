@@ -6,7 +6,8 @@ import { writable } from 'svelte/store';
 // to its routing subcomponent.
 import Start from '../routes/Start.svelte'
 import Baseline from '../routes/Baseline-Clickdots.svelte'
-import Results from '../routes/Results.svelte'
+import GenResults from '../routes/GenerationResults.svelte'
+import FinalResults from '../routes/FinalResults.svelte'
 import NotFound from '../routes/NotFound.svelte'
 
 // create 'routes' object to pass to Router component in markup
@@ -18,7 +19,10 @@ export const routes = writable({
     '/baseline': Baseline,
 
     // Wildcard parameter
-    '/results': Results,
+    '/genResults': GenResults,
+
+    // Wildcard parameter
+    '/finalResults': FinalResults,
 
     // Catch-all
     // This is optional, but if present it must be the last

@@ -16,6 +16,16 @@
 		replace("/");
 	}
 
+	// Track percentage of dots remaining out of the starting total
+	$: percentRemaining = Math.round(
+			$currentDotSettings.randomCoordinates.length 
+			/ ($currentDotSettings.dotsPerColor * $currentDotSettings.dotColors.length) 
+			* 100
+		);
+
+	$: if (percentRemaining <= 20) {
+		replace("/genResults");
+	}
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
 		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
@@ -33,7 +43,8 @@
 		, $displaySettings.width
 		, $displaySettings.marginParams
 		, $currentDotSettings.dotsPerColor
-		, $currentDotSettings.dotColors );
+		, $currentDotSettings.dotColors
+	);
 </script>
 
 <main>
@@ -47,19 +58,11 @@
 				<!-- debugging code -->	
 				<title>{index} | {coords.color} | {coords.x}, {coords.y}</title>
 			</circle>
-			<!-- debugging code -->
-			<!-- <text 
-				x="{coords.x}" y="{coords.y - 1}" 
-				stroke="green" stroke-width="1px" 
-				text-anchor="middle" dominant-baseline="central" 
-				pointer-events="none">
-					{index}
-			</text> -->
 		{/each}
 	</svg>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length}</p>
+		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%)</p>
 	{:else}
 		<p>All gone!</p>
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
@@ -72,13 +75,6 @@
 		padding: 10px;
 		max-width: none;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		/* text-transform: uppercase; */
-		font-size: 1em;
-		font-weight: 400;
 	}
 
 	p {

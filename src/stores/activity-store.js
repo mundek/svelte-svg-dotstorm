@@ -28,7 +28,7 @@ const CURRENTMAPSETTINGS = {
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
     dotRadius: 6,
-    dotsPerColor: 5
+    dotsPerColor: 4
 }
 
 const CURRENTDOTSETTINGS = {
@@ -43,24 +43,30 @@ export const currentMapSettings = writable(CURRENTMAPSETTINGS);
 export const initialDotSettings = readable(INITIALDOTSETTINGS);
 export const currentDotSettings = writable(CURRENTDOTSETTINGS);
 
+// derived value returns totals for each dot color
+export const dotCount = derived(currentDotSettings, $currentDotSettings => {
+    // component-internal array and associated reactive code to track current count of each dot color
+    let counts = [];
+
+    // set colorCounts (of length N) to value 0 (https://stackoverflow.com/questions/4049847/initializing-an-array-with-a-single-value)
+    let counter = $currentDotSettings.dotColors.length;
+    while (counter--) counts[$currentDotSettings.dotColors[counter]] = 0;
+
+    // count total dots of each color if randomCoordinates is not empty
+    if ($currentDotSettings.randomCoordinates) {
+        for (let i=0; i<$currentDotSettings.randomCoordinates.length; i++) {
+            counts[$currentDotSettings.randomCoordinates[i].color]++;
+        }
+    }
+    return counts;
+});
+
 // generate the same number of random coordinates for each color in the array passed to "colors"
 export function generateRandCoordinates (height, width, marginSettings, count, colors) {
     // set default currMargins object; updated below after parsing marginSettings
     let currMargins = { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 };
 
-    // if no color object is included or if it is empty, default to one color: pink
-    // if (colors.length < 1) colors = ["pink"];
-
-    // ternary operators replace the following somewhat longer code to set currMargins based on granularity of the passed-in marginSettings object
-    //
-    // if (marginSettings.leftMargin) {
-    // 	currMargins.leftMargin = marginSettings.leftMargins;
-    // } else if (marginSettings.wdMargins) {
-    // 	currMargins.leftMargin = marginSettings.wdMargins;
-    // } else {
-    // 	currMargins.leftMargin = marginSettings.margins;
-    // }
-
+    // set individual margins (top/right/bottom/left)
     (marginSettings.leftMargin) ? currMargins.leftMargin = marginSettings.leftMargin
         : (marginSettings.wdMargins) ? currMargins.leftMargin = marginSettings.wdMargins
         : (marginSettings.margins) ? currMargins.leftMargin = marginSettings.margins : currMargins.leftMargin = 0;
@@ -92,21 +98,3 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     // console.table(newDots);
     return newDots;
 }
-
-// derived value returns totals for each dot color
-export const dotCount = derived(currentDotSettings, $currentDotSettings => {
-    // component-internal array and associated reactive code to track current count of each dot color
-    let counts = [];
-
-    // set colorCounts (of length N) to value 0 (https://stackoverflow.com/questions/4049847/initializing-an-array-with-a-single-value)
-    let counter = $currentDotSettings.dotColors.length;
-    while (counter--) counts[$currentDotSettings.dotColors[counter]] = 0;
-
-    // count total dots of each color if randomCoordinates is not empty
-    if ($currentDotSettings.randomCoordinates) {
-        for (let i=0; i<$currentDotSettings.randomCoordinates.length; i++) {
-            counts[$currentDotSettings.randomCoordinates[i].color]++;
-        }
-    }
-    return counts;
-});

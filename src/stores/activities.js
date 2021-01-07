@@ -1,7 +1,7 @@
 export let mapObjects = [
     {
         mapName: "Baseline",
-        mapRoute: "Base-Clickdots.svelte",
+        mapRoute: "Baseline-Clickdots.svelte",
         briefDescription: "An autumn forest"
     },
     {
