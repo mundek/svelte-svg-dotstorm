@@ -6,8 +6,7 @@
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
-		dotCount, 
-		generateRandCoordinates
+		dotCount
 		} from '../stores/activity-store.js';
 
 	// In case of browser re-load, return to Start (home/default) route
@@ -16,6 +15,8 @@
 		replace("/");
 	}
 
+	// Set percentage 
+	const MIN_REMAINING = 70;
 	// Track percentage of dots remaining out of the starting total
 	$: percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
@@ -23,7 +24,7 @@
 			* 100
 		);
 
-	$: if (percentRemaining <= 20) {
+	$: if (percentRemaining <= MIN_REMAINING) {
 		replace("/genResults");
 	}
 	// click events on SVG dots call the removeDot function
@@ -36,15 +37,6 @@
 								.slice(0,theID)
 								.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
 	}
-
-	// generate the initial array of random coordinates
-	$currentDotSettings.randomCoordinates = generateRandCoordinates(
-		$displaySettings.height
-		, $displaySettings.width
-		, $displaySettings.marginParams
-		, $currentDotSettings.dotsPerColor
-		, $currentDotSettings.dotColors
-	);
 </script>
 
 <main>

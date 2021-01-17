@@ -1,7 +1,7 @@
 // svelte store functions
 import { derived, readable, writable } from 'svelte/store';
 // custom array of available scenarios, including routing information for each MAPNAME-Clickdots.svelte component
-import { mapObjects } from './activities.js';
+import { mapObjects } from './activities-helper.js';
 
 const DISPLAYSETTINGS = {
     width: 800,

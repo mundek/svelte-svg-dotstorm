@@ -7,21 +7,22 @@
         dotCount, 
         generateRandCoordinates 
     } from '../stores/activity-store.js';
-    
+
     function nextGeneration() {
         let newRandCoords = [];
         // console.log($dotCount);
         for (let item in $dotCount) {
             console.log(item, $dotCount[item]);
-            newRandCoords = [generateRandCoordinates(
-		        $displaySettings.height
-                , $displaySettings.width
-                , $displaySettings.marginParams
-                , (parseInt($dotCount[item]) * 5)
-                , [item]
-	        ), ...newRandCoords]
+            newRandCoords = newRandCoords.concat(generateRandCoordinates(
+		        $displaySettings.height,
+                $displaySettings.width,
+                $displaySettings.marginParams,
+                (parseInt($dotCount[item]) * 5),
+                [item]
+	        ));
         }
         $currentDotSettings.randomCoordinates = [...newRandCoords];
+        console.table($currentDotSettings.randomCoordinates);
         replace("/baseline");
     }
 </script>
