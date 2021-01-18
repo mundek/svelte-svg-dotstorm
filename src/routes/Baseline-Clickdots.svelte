@@ -6,9 +6,13 @@
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
-		dotCount
+		dotCount,
+		currentMapSettings
 		} from '../stores/activity-store.js';
 
+	// set current generation's starting dot count
+	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
+	console.log(currGenDotCount);
 	// In case of browser re-load, return to Start (home/default) route
 	// TODO: In planned multi-map, multi-generational implementation, add store variables to maintain state (progress) through maps and/or generations
 	if (!$currentDotSettings.dotRadius) {
@@ -17,10 +21,10 @@
 
 	// Set percentage 
 	const MIN_REMAINING = 70;
-	// Track percentage of dots remaining out of the starting total
+	// Track rounded integer percentage of dots remaining out of the current generation's starting total
 	$: percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
-			/ ($currentDotSettings.dotsPerColor * $currentDotSettings.dotColors.length) 
+			/ currGenDotCount 
 			* 100
 		);
 
@@ -54,7 +58,7 @@
 	</svg>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%)</p>
+		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
 		<p>All gone!</p>
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>

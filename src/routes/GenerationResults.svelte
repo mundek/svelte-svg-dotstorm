@@ -5,25 +5,31 @@
         displaySettings, 
         currentDotSettings, 
         dotCount, 
-        generateRandCoordinates 
+        generateRandCoordinates, 
+currentMapSettings
     } from '../stores/activity-store.js';
 
-    function nextGeneration() {
-        let newRandCoords = [];
-        // console.log($dotCount);
-        for (let item in $dotCount) {
-            console.log(item, $dotCount[item]);
-            newRandCoords = newRandCoords.concat(generateRandCoordinates(
-		        $displaySettings.height,
-                $displaySettings.width,
-                $displaySettings.marginParams,
-                (parseInt($dotCount[item]) * 5),
-                [item]
-	        ));
+    function continueActivity() {
+        if ($currentMapSettings.currentGeneration < $currentMapSettings.maxGeneration) {
+            let newRandCoords = [];
+            // console.log($dotCount);
+            for (let item in $dotCount) {
+                console.log(item, $dotCount[item]);
+                newRandCoords = newRandCoords.concat(generateRandCoordinates(
+                    $displaySettings.height,
+                    $displaySettings.width,
+                    $displaySettings.marginParams,
+                    (parseInt($dotCount[item]) * 2),
+                    [item]
+                ));
+            }
+            $currentDotSettings.randomCoordinates = [...newRandCoords];
+            console.table($currentDotSettings.randomCoordinates);
+            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
+            replace("/baseline");
+        } else {
+            replace("/finalResults");
         }
-        $currentDotSettings.randomCoordinates = [...newRandCoords];
-        console.table($currentDotSettings.randomCoordinates);
-        replace("/baseline");
     }
 </script>
 
@@ -31,6 +37,6 @@
     <h1>THE RESULTS</h1>
     <p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
     <form>
-        <button on:click|preventDefault="{nextGeneration}">Next Generation</button>
+        <button on:click|preventDefault="{continueActivity}">Next Generation</button>
     </form>
 </main>

@@ -13,6 +13,8 @@ const DISPLAYSETTINGS = {
     }
 }
 
+const MAX_GENERATION = 2; // must be > 0
+
 const CURRENTMAPSETTINGS = {
     // backgroundImg: "/images/MAP-yellow.forest.jpg" <-- remove; set only within the individual MAPNAME-Clickdots.svelte components
     // copy these settings when user chooses scenario
@@ -22,7 +24,8 @@ const CURRENTMAPSETTINGS = {
     // state settings for activity
     currentColors: [],
     currentDotCounts: [],
-    currentGeneration: 0
+    currentGeneration: 0,
+    maxGeneration: MAX_GENERATION
 }
 
 const INITIALDOTSETTINGS = {
