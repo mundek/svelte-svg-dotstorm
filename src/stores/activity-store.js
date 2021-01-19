@@ -1,7 +1,7 @@
 // svelte store functions
 import { derived, readable, writable } from 'svelte/store';
 // custom array of available scenarios, including routing information for each MAPNAME-Clickdots.svelte component
-import { mapObjects } from './activities-helper.js';
+import { mapObjects } from './mapObjects.js';
 
 const DISPLAYSETTINGS = {
     width: 800,
@@ -13,6 +13,8 @@ const DISPLAYSETTINGS = {
     }
 }
 
+const MAX_GENERATION = 2; // must be > 0; the initial, equal distribution of colors is generation 0; TODO: Set in the 
+
 const CURRENTMAPSETTINGS = {
     // backgroundImg: "/images/MAP-yellow.forest.jpg" <-- remove; set only within the individual MAPNAME-Clickdots.svelte components
     // copy these settings when user chooses scenario
@@ -22,7 +24,9 @@ const CURRENTMAPSETTINGS = {
     // state settings for activity
     currentColors: [],
     currentDotCounts: [],
-    currentGeneration: 0
+    survivalData: [],
+    currentGeneration: 0,
+    maxGeneration: MAX_GENERATION
 }
 
 const INITIALDOTSETTINGS = {
