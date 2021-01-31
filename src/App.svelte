@@ -10,22 +10,22 @@
 
 </script>
 
-<main style="width: {$displaySettings.width}; height: auto">
+<main>
 	<h1>App: {appName}!</h1>
 	<div>
 		<hr/>
-		<Router routes={$routes}/>
+		<Router routes={$routes} style="width: {$displaySettings.width}; height: auto"/>
 		<hr/>
 	</div>
 </main>
 
 <style>
-	main {
+	/* main {
 		text-align: center;
 		padding: 10px;
 		max-width: none;
 		margin: 0 auto;
-	}
+	} */
 
 	h1 {
 		color: #ff3e00;

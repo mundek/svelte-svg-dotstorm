@@ -9,8 +9,12 @@
         currentMapSettings
     } from '../stores/activity-store.js';
 
+    // add current generation's dot count to the survival data
+    $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
+
+    // Continue to next generation (or final results)
+    // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
-        $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
         if ($currentMapSettings.currentGeneration < $currentMapSettings.maxGeneration) {
             let newRandCoords = [];
             // console.log($dotCount);

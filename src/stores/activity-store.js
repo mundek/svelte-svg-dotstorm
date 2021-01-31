@@ -29,10 +29,35 @@ const CURRENTMAPSETTINGS = {
     maxGeneration: MAX_GENERATION
 }
 
+// ****************
+// for debugging
+// ****************
+CURRENTMAPSETTINGS.survivalData = [
+    {
+        burlywood: 12,
+        cornflowerblue: 3,
+        mediumseagreen: 4,
+        orange: 2
+    },
+    {
+        burlywood: 1,
+        cornflowerblue: 15,
+        mediumseagreen: 21,
+        orange: 6
+    },    {
+        burlywood: 12,
+        cornflowerblue: 23,
+        mediumseagreen: 67,
+        orange: 9
+    },    
+]
+
+// configure initial settings here
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
     dotRadius: 6,
-    dotsPerColor: 4
+    dotsPerColor: 4,
+    randomCoordinates: []
 }
 
 const CURRENTDOTSETTINGS = {
@@ -64,6 +89,30 @@ export const dotCount = derived(currentDotSettings, $currentDotSettings => {
     }
     return counts;
 });
+
+export const chartData = derived(currentMapSettings, $currentMapSettings => {
+    var chartPoints = [];
+    // initialize points array with an object for each color; use first generation data as source of colors
+    // console.table($currentMapSettings.survivalData);
+    for (const color in $currentMapSettings.survivalData[0]) {
+        var currObject = {};
+        currObject['color'] = color;
+        currObject['points'] = [];
+        for (const generation in $currentMapSettings.survivalData) {
+            // console.log($currentMapSettings.survivalData[generation][color]);
+            var pointObj = {};
+            pointObj['x'] = +generation;
+            pointObj['y'] = $currentMapSettings.survivalData[generation][color];
+            currObject['points'] = [...currObject['points'], pointObj]
+        }
+        chartPoints = [...chartPoints, currObject];
+        // console.log(currObject['color'], color, $currentMapSettings.survivalData[0][color]);
+        // console.table(chartPoints);
+    }
+    // console.table(chartPoints);
+    return chartPoints;
+});
+
 
 // generate the same number of random coordinates for each color in the array passed to "colors"
 export function generateRandCoordinates (height, width, marginSettings, count, colors) {
