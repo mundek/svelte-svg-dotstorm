@@ -4,33 +4,8 @@
 		chartData
 		} from '../stores/activity-store.js';
 
-// ****************
-// Debugging points
-// ****************
-	let points = [
-			{	color: '#00FF00',
-				points: [{ x: 0,  y: 5 },
-						{ x: 1,  y: 15 },
-						{ x: 2,  y: 51 }]
-			},
-		
-			{	color: '#0000FF',
-				points: [{ x: 0,  y: 3 },
-						{ x: 1,  y: 3 },
-						{ x: 2,  y: 0 },]
-			},
-		
-			{	color: '#FF0000',
-				points: [{ x: 0,  y: 4 },
-						{ x: 1,  y: 10 },
-						{ x: 2,  y: 21 },]
-			}		
-	];
-
-	points = $chartData;
-
-	console.table(points);
-	points.forEach((el, i) => {
+	console.table($chartData);
+	$chartData.forEach((el, i) => {
 		console.log(el.color);
 		var style = document.createElement('style');
 		document.head.appendChild(style);
@@ -54,7 +29,7 @@
 			<span class="y label">{value}</span>
 		</Pancake.Grid>
 
-		{#each points as colorPointSet, i}
+		{#each $chartData as colorPointSet, i}
 			<Pancake.Svg>
 				<Pancake.SvgLine data={colorPointSet.points} let:d>
 					<path class={"data data"+i} {d}/>
