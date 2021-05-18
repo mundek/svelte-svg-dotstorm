@@ -13,7 +13,7 @@ const DISPLAYSETTINGS = {
     }
 }
 
-const MAX_GENERATION = 2; // must be > 0; the initial, equal distribution of colors is generation 0; TODO: Set in the 
+const MAX_GENERATION = 2; // must be > 0; the initial, equal distribution of colors is generation 0
 
 const CURRENTMAPSETTINGS = {
     // backgroundImg: "/images/MAP-yellow.forest.jpg" <-- remove; set only within the individual MAPNAME-Clickdots.svelte components
@@ -21,6 +21,7 @@ const CURRENTMAPSETTINGS = {
     mapName: "",
     mapRoute: "",
     briefDescription: "",
+    mapFile: "",
     // state settings for activity
     currentColors: [],
     currentDotCounts: [],

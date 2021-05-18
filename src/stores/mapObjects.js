@@ -1,12 +1,14 @@
 export let mapObjects = [
     {
-        mapName: "Baseline",
-        mapRoute: "Baseline-Clickdots.svelte",
+        mapName: "Baseline Scenario",
+        mapRoute: "baseline",
+        mapFile: "MAP-autumn.forest.jpg",
         briefDescription: "An autumn forest"
     },
     {
-        mapName: "Climate Change",
-        mapRoute: "ClimateChange-Clickdots.svelte",
+        mapName: "Climate Change Scenario",
+        mapRoute: "climate-change",
+        mapFile: "MAP-climate.change.forest.jpg",
         briefDescription: "A forest under stress from climate change"
     }
 ]

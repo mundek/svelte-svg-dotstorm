@@ -1,8 +1,11 @@
 
 <script>
     import { replace } from 'svelte-spa-router';
+	import { mapObjects } from '../stores/mapObjects.js';
+    // console.table(mapObjects);
+    let selectedMap;
 
-    import { initialDotSettings, currentDotSettings, displaySettings, generateRandCoordinates } from '../stores/activity-store.js';
+    import { initialDotSettings, currentDotSettings, displaySettings, generateRandCoordinates, currentMapSettings } from '../stores/activity-store.js';
 
     function startActivity() {
         $currentDotSettings = {...$initialDotSettings};
@@ -15,12 +18,21 @@
             , $currentDotSettings.dotColors
         );
         // console.table($currentDotSettings);
-        replace("/baseline");
+        if(selectedMap) {
+            currentMapSettings.mapFile = selectedMap.mapFile;
+            replace("/" + selectedMap.mapRoute);
+        }
     }
 </script>
 
 <main>
     <form>
+        <select bind:value={selectedMap}>
+            {#each mapObjects as map}
+                <option value={map}> {map.mapName} </option>
+            {/each}
+        </select>
         <button on:click|preventDefault="{startActivity}">Start Activity</button>
+        <p>Map Description: {selectedMap ? selectedMap.briefDescription : '[waiting...]'}</p>
     </form>
 </main>

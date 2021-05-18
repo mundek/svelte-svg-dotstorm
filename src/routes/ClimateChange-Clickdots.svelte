@@ -4,12 +4,12 @@
 		currentDotSettings, 
 		dotCount,
 		currentMapSettings
-	} from '../stores/activity-store.js';
-	// Scenario-specific settings and/or functions
+		} from '../stores/activity-store.js';
+    // Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + currentMapSettings.mapFile;
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
-	
+
 	// set current generation's starting dot count
 	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
 	// console.log(currGenDotCount);
