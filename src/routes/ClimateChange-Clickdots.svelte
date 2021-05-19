@@ -6,7 +6,7 @@
 		currentMapSettings
 		} from '../stores/activity-store.js';
     // Scenario-specific settings and/or functions
-	let backgroundImg = "./images/" + currentMapSettings.mapFile;
+	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 

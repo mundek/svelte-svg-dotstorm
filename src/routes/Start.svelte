@@ -18,8 +18,9 @@
             , $currentDotSettings.dotColors
         );
         // console.table($currentDotSettings);
+        // console.table(selectedMap.mapFiles);
         if(selectedMap) {
-            currentMapSettings.mapFile = selectedMap.mapFile;
+            $currentMapSettings.mapFiles = selectedMap.mapFiles;
             replace("/" + selectedMap.mapRoute);
         }
     }

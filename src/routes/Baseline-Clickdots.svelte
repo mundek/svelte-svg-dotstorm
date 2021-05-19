@@ -6,7 +6,7 @@
 		currentMapSettings
 	} from '../stores/activity-store.js';
 	// Scenario-specific settings and/or functions
-	let backgroundImg = "./images/" + currentMapSettings.mapFile;
+	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 	
@@ -37,9 +37,10 @@
 		let theID = parseInt(event.target.id);
 		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
 		// assignment will trigger svelte reactivity
-		$currentDotSettings.randomCoordinates = $currentDotSettings.randomCoordinates
-								.slice(0,theID)
-								.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		$currentDotSettings.randomCoordinates = 
+			$currentDotSettings.randomCoordinates
+			.slice(0,theID)
+			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
 	}
 </script>
 

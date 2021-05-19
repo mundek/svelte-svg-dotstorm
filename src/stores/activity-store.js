@@ -21,7 +21,7 @@ const CURRENTMAPSETTINGS = {
     mapName: "",
     mapRoute: "",
     briefDescription: "",
-    mapFile: "",
+    mapFiles: [],
     // state settings for activity
     currentColors: [],
     currentDotCounts: [],
