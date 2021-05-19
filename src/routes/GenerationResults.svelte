@@ -16,8 +16,13 @@
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
         if ($currentMapSettings.currentGeneration < $currentMapSettings.maxGeneration) {
+            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             let newRandCoords = [];
             // console.log($dotCount);
+            if($currentMapSettings.margins) {
+                $displaySettings.marginParams 
+                    = $currentMapSettings.margins[$currentMapSettings.currentGeneration];
+            } 
             for (let item in $dotCount) {
                 console.log(item, $dotCount[item]);
                 newRandCoords = newRandCoords.concat(generateRandCoordinates(
@@ -30,8 +35,8 @@
             }
             $currentDotSettings.randomCoordinates = [...newRandCoords];
             console.table($currentDotSettings.randomCoordinates);
-            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
-            replace("/baseline");
+            console.table($currentMapSettings);
+            replace("/" + $currentMapSettings.mapRoute);
         } else {
             replace("/finalResults");
         }

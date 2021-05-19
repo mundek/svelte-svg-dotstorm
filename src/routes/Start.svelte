@@ -21,7 +21,11 @@
         // console.table(selectedMap.mapFiles);
         if(selectedMap) {
             $currentMapSettings.mapFiles = selectedMap.mapFiles;
-            replace("/" + selectedMap.mapRoute);
+            $currentMapSettings.mapRoute = selectedMap.mapRoute;
+            if($currentMapSettings.margins) {
+                $currentMapSettings.margins = selectedMap.margins;
+            }
+            replace("/" + $currentMapSettings.mapRoute);
         }
     }
 </script>

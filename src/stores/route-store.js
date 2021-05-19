@@ -4,12 +4,13 @@ import { writable } from 'svelte/store';
 // The following components are added to the 'routes' object
 // in this store. The App.svelte component passes this store object
 // to its routing subcomponent.
-import Start from '../routes/Start.svelte'
-import Baseline from '../routes/Baseline-Clickdots.svelte'
-import ClimateChange from '../routes/ClimateChange-Clickdots.svelte'
-import GenResults from '../routes/GenerationResults.svelte'
-import FinalResults from '../routes/FinalResults.svelte'
-import NotFound from '../routes/NotFound.svelte'
+import Start from '../routes/Start.svelte';
+import Baseline from '../routes/Baseline-Clickdots.svelte';
+import ClimateChange from '../routes/ClimateChange-Clickdots.svelte';
+import UrbanSprawl from '../routes/UrbanSprawl-Clickdots.svelte';
+import GenResults from '../routes/GenerationResults.svelte';
+import FinalResults from '../routes/FinalResults.svelte';
+import NotFound from '../routes/NotFound.svelte';
 
 // create 'routes' object to pass to Router component in markup
 export const routes = writable({
@@ -19,6 +20,7 @@ export const routes = writable({
     // Named activity
     '/baseline': Baseline,
     '/climate-change': ClimateChange,
+    '/urban-sprawl': UrbanSprawl,
 
     // Wildcard parameter
     '/genResults': GenResults,

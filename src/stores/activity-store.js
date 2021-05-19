@@ -22,6 +22,7 @@ const CURRENTMAPSETTINGS = {
     mapRoute: "",
     briefDescription: "",
     mapFiles: [],
+    margins: [],
     // state settings for activity
     currentColors: [],
     currentDotCounts: [],
@@ -68,7 +69,7 @@ const CURRENTDOTSETTINGS = {
     randomCoordinates: []
 }
 
-export const displaySettings = readable(DISPLAYSETTINGS);
+export const displaySettings = writable(DISPLAYSETTINGS);
 export const currentMapSettings = writable(CURRENTMAPSETTINGS);
 export const initialDotSettings = readable(INITIALDOTSETTINGS);
 export const currentDotSettings = writable(CURRENTDOTSETTINGS);
@@ -113,7 +114,6 @@ export const chartData = derived(currentMapSettings, $currentMapSettings => {
     // console.table(chartPoints);
     return chartPoints;
 });
-
 
 // generate the same number of random coordinates for each color in the array passed to "colors"
 export function generateRandCoordinates (height, width, marginSettings, count, colors) {
