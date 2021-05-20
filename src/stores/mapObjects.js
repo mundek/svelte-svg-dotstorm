@@ -21,5 +21,11 @@ export let mapObjects = [
             { leftMargin: 200, rightMargin: 200, topMargin: 10, bottomMargin: 10 }, 
             { leftMargin: 300, rightMargin: 300, topMargin: 10, bottomMargin: 10 }
         ]
+    },
+    {
+        mapName: "Exotic Species Scenario",
+        mapRoute: "exotic-species",
+        mapFiles: ["MAP-autumn.forest.jpg", "MAP-autumn.forest-50pct.exotic.species.jpg", "MAP-exotic.species.yellowed.forest.jpg"],
+        briefDescription: "A forest infested with an exotic species"
     }
 ]

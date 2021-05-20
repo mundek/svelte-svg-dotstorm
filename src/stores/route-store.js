@@ -8,6 +8,7 @@ import Start from '../routes/Start.svelte';
 import Baseline from '../routes/Baseline-Clickdots.svelte';
 import ClimateChange from '../routes/ClimateChange-Clickdots.svelte';
 import UrbanSprawl from '../routes/UrbanSprawl-Clickdots.svelte';
+import ExoticSpecies from '../routes/ExoticSpecies-Clickdots.svelte';
 import GenResults from '../routes/GenerationResults.svelte';
 import FinalResults from '../routes/FinalResults.svelte';
 import NotFound from '../routes/NotFound.svelte';
@@ -21,7 +22,8 @@ export const routes = writable({
     '/baseline': Baseline,
     '/climate-change': ClimateChange,
     '/urban-sprawl': UrbanSprawl,
-
+    '/exotic-species': ExoticSpecies,
+ 
     // Wildcard parameter
     '/genResults': GenResults,
 
