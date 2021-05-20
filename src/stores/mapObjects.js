@@ -27,5 +27,11 @@ export let mapObjects = [
         mapRoute: "exotic-species",
         mapFiles: ["MAP-autumn.forest.jpg", "MAP-autumn.forest-50pct.exotic.species.jpg", "MAP-exotic.species.yellowed.forest.jpg"],
         briefDescription: "A forest infested with an exotic species"
+    },
+    {
+        mapName: "Pesticide Resistance Scenario",
+        mapRoute: "pesticide-resistance",
+        mapFiles: ["MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
+        briefDescription: "A forest infested with a species that is developing pesticide resistance"
     }
 ]
