@@ -5,17 +5,35 @@
 		dotCount,
 		currentMapSettings
 	} from '../stores/activity-store.js';
+
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	$currentMapSettings.maxGeneration = 4;
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
-	
+
+	// initialize flag for setting pesticide resistance for last two generations
+	let leastColor = "abcdefg123";
+	if($currentMapSettings.currentGeneration == 3) {
+		// console.table($currentMapSettings.survivalData[2]);
+		let lowCount = 9999999; // arbitrarily high, and unlikely, value
+		$currentDotSettings.dotColors.forEach((item) => {
+			// console.table($currentMapSettings.survivalData[2][item]);
+			if(($currentMapSettings.survivalData[2][item] < lowCount) && ($currentMapSettings.survivalData[2][item] > 0)) {
+				lowCount = $currentMapSettings.survivalData[2][item];
+				leastColor = item;
+			}
+			console.log(leastColor, lowCount);
+		});
+		$currentMapSettings.resistantDotColor = leastColor;
+	}
+
+	$dotCount.forEach(item => console.log(item));
+
 	// set current generation's starting dot count
-	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
-	// console.log(currGenDotCount);
+	let currGenDotCount = $currentDotSettings.randomCoordinates.length;
+
 	// In case of browser re-load, return to Start (home/default) route
-	// TODO: In planned multi-map, multi-generational implementation, add store variables to maintain state (progress) through maps and/or generations
 	if (!$currentDotSettings.dotRadius) {
 		replace("/");
 	}
@@ -35,13 +53,15 @@
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
 		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
-		let theID = parseInt(event.target.id);
-		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
-		// assignment will trigger svelte reactivity
-		$currentDotSettings.randomCoordinates = 
-			$currentDotSettings.randomCoordinates
-			.slice(0,theID)
-			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		if(event.target.attributes.fill.nodeValue != $currentMapSettings.resistantDotColor) {
+			let theID = parseInt(event.target.id);
+			// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
+			// assignment will trigger svelte reactivity
+			$currentDotSettings.randomCoordinates = 
+				$currentDotSettings.randomCoordinates
+				.slice(0,theID)
+				.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		}
 	}
 </script>
 

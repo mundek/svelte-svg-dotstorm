@@ -28,6 +28,7 @@ const CURRENTMAPSETTINGS = {
     currentDotCounts: [],
     survivalData: [],
     currentGeneration: 0,
+    resistantDotColor: "",
     maxGeneration: MAX_GENERATION
 }
 
