@@ -39,5 +39,12 @@ export let mapObjects = [
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
         briefDescription: "A forest infested with a species that is developing pesticide resistance",
         maxGenerations: 5
+    },
+    {
+        mapName: "Toxin Release Scenario",
+        mapRoute: "toxic-release",
+        mapFiles: ["NOMAP", "MAP-toxic.release.yellowed.forest.jpg", "MAP-toxic.release.yellowed.forest.jpg", "MAP-toxic.release.yellowed.forest.jpg"],
+        briefDescription: "A toxin is regularly released into the forest",
+        maxGenerations: 3
     }
 ]
