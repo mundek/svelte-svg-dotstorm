@@ -16,7 +16,6 @@ const DISPLAYSETTINGS = {
 const MAX_GENERATION = 2; // must be > 0; the initial, equal distribution of colors is generation 0
 
 const CURRENTMAPSETTINGS = {
-    // backgroundImg: "/images/MAP-yellow.forest.jpg" <-- remove; set only within the individual MAPNAME-Clickdots.svelte components
     // copy these settings when user chooses scenario
     mapName: "",
     mapRoute: "",
@@ -112,7 +111,7 @@ export const chartData = derived(currentMapSettings, $currentMapSettings => {
         // console.log(currObject['color'], color, $currentMapSettings.survivalData[0][color]);
         // console.table(chartPoints);
     }
-    // console.table(chartPoints);
+    console.table(chartPoints);
     return chartPoints;
 });
 

@@ -1,7 +1,8 @@
 <script>
 	import * as Pancake from '@sveltejs/pancake';
 	import { 
-		chartData
+		chartData,
+		currentMapSettings
 		} from '../stores/activity-store.js';
 
 	console.table($chartData);
@@ -11,17 +12,17 @@
 		document.head.appendChild(style);
 		style.sheet.insertRule('path.data' + i +
 		'{stroke: ' + el.color + '; stroke-linejoin: round; stroke-linecap: round; stroke-width: 2px; fill: none; }');
-	})
+	});
 	// console.table(document.styleSheets);
 </script>
 
 <div class="chart">
-	<Pancake.Chart x1={0} x2={2} y1={0} y2={120}>
-		<Pancake.Box x2={2} y2={120}>
+	<Pancake.Chart x1={0} x2={$currentMapSettings.maxGeneration} y1={0} y2={120}>
+		<Pancake.Box x2={$currentMapSettings.maxGeneration} y2={120}>
 			<div class="axes"></div>
 		</Pancake.Box>
 		
-		<Pancake.Grid vertical count={2} let:value>
+		<Pancake.Grid vertical count={$currentMapSettings.maxGeneration} let:value>
 			<span class="x label">{value}</span>
 		</Pancake.Grid>
 

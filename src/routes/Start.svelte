@@ -1,11 +1,15 @@
-
 <script>
     import { replace } from 'svelte-spa-router';
 	import { mapObjects } from '../stores/mapObjects.js';
     // console.table(mapObjects);
     let selectedMap;
 
-    import { initialDotSettings, currentDotSettings, displaySettings, generateRandCoordinates, currentMapSettings } from '../stores/activity-store.js';
+    import { initialDotSettings, 
+        currentDotSettings, 
+        displaySettings, 
+        generateRandCoordinates, 
+        currentMapSettings, 
+        dotCount } from '../stores/activity-store.js';
 
     function startActivity() {
         $currentDotSettings = {...$initialDotSettings};
@@ -25,6 +29,12 @@
             if($currentMapSettings.margins) {
                 $currentMapSettings.margins = selectedMap.margins;
             }
+            console.table($dotCount);
+            $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
+            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
+            console.log(selectedMap.maxGenerations);
+            $currentMapSettings.maxGeneration = selectedMap.maxGenerations;
+            console.log($currentMapSettings.maxGeneration);
             replace("/" + $currentMapSettings.mapRoute);
         }
     }

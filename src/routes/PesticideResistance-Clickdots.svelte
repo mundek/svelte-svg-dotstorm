@@ -8,7 +8,6 @@
 
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
-	$currentMapSettings.maxGeneration = 4;
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 
