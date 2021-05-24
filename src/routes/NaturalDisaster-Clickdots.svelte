@@ -11,12 +11,12 @@
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// console.log($currentMapSettings.currentGeneration);
-	let toxicClouds = generateRandCoordinates(
+	let burningFires = generateRandCoordinates(
             $displaySettings.height
             , $displaySettings.width
             , { leftMargin: 5, rightMargin: 85, topMargin: 5, bottomMargin: 50 }
             , 10
-            , ["poison-cloud.svg"]
+            , ["flame.svg"]
         );
 	// console.table(toxicClouds);
 	onMount(() => {
@@ -24,21 +24,20 @@
 		let survivingDots = [];
 		let overlapFlag = false;
 		$currentDotSettings.randomCoordinates.forEach((aDot, aDotIndex) => {
-			toxicClouds.forEach((aToxicCloud, index) => {
-				// console.log(aToxicCloud, index, aDot, aDotIndex);
+			burningFires.forEach((aFire, index) => {
+				// console.log(burningFires, index, aDot, aDotIndex);
 				if(
-					((aDot.x >= aToxicCloud.x && aDot.x <= (aToxicCloud.x + 75))
-					&& (aDot.y >= aToxicCloud.y && (aDot.y <= (aToxicCloud.y + 60))))
+					((aDot.x >= aFire.x && aDot.x <= (aFire.x + 75))
+					&& (aDot.y >= aFire.y && (aDot.y <= (aFire.y + 75))))
 				) { overlapFlag = true; }
 			});
-			if (!overlapFlag) {  survivingDots = [...survivingDots, aDot]; }
+			if (!overlapFlag) { survivingDots = [...survivingDots, aDot]; }
 			overlapFlag = false;
 		});
-		// console.log(survivingDots);
+		console.log(survivingDots);
 		$currentDotSettings.randomCoordinates = [...survivingDots];
 	});
-
-
+	
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 
@@ -74,17 +73,6 @@
 			.slice(0,theID)
 			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
 	}
-
-	// Return random integer in from/to range
-	function rn(from, to) {
-		return ~~(Math.random() * (to - from + 1)) + from;
-	}
-
-	// Return 
-	function rs() {
-		return arguments[rn(1, arguments.length) - 1];
-	}
-
 </script>
 
 <main>
@@ -93,7 +81,7 @@
 		height="{$displaySettings.height}"
 		style="background-color:#D80000;z-index:1;">
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
-		{#each toxicClouds as coords, index}
+		{#each burningFires as coords, index}
 			<image
 				opacity="0" width="75"
 				x="{coords.x}" y="{coords.y}" href="./images/{coords.color}">

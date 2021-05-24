@@ -13,8 +13,6 @@ const DISPLAYSETTINGS = {
     }
 }
 
-const MAX_GENERATION = 2; // must be > 0; the initial, equal distribution of colors is generation 0
-
 const CURRENTMAPSETTINGS = {
     // copy these settings when user chooses scenario
     mapName: "",
@@ -28,7 +26,6 @@ const CURRENTMAPSETTINGS = {
     survivalData: [],
     currentGeneration: 0,
     resistantDotColor: "",
-    maxGeneration: MAX_GENERATION,
     reproduce: true
 }
 

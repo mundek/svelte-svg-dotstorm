@@ -52,5 +52,13 @@ export let mapObjects = [
         briefDescription: "A toxin is regularly released into the forest",
         maxGenerations: 3,
         reproduce: false
+    },
+    {
+        mapName: "Natural Disaster Scenario",
+        mapRoute: "natural-disaster",
+        mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
+        briefDescription: "A natural disaster is affecting the forest",
+        maxGenerations: 3,
+        reproduce: true
     }
 ]
