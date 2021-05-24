@@ -12,7 +12,7 @@
 	let toxicClouds = generateRandCoordinates(
             $displaySettings.height
             , $displaySettings.width
-            , { margins: 25 }
+            , { margins: 50 }
             , 10
             , ["poison-cloud.svg"]
         );
@@ -73,8 +73,10 @@
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
 		{#each toxicClouds as coords, index}
 			<image
-				width="75"
-				x="{coords.x}" y="{coords.y}" href="./images/{coords.color}"></image>
+				width="60"
+				x="{coords.x}" y="{coords.y}" href="./images/{coords.color}">
+				<title>{index} | {coords.color} | {coords.x}, {coords.y}</title>
+			</image>
 		{/each}
 		{#each $currentDotSettings.randomCoordinates as coords, index}
 			<circle
