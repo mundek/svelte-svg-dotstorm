@@ -1,4 +1,6 @@
 <script>
+	console.clear();
+	import { onMount } from 'svelte';
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
@@ -8,15 +10,44 @@
 	} from '../stores/activity-store.js';
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
-	console.log($currentMapSettings.currentGeneration);
+	// console.log($currentMapSettings.currentGeneration);
 	let toxicClouds = generateRandCoordinates(
             $displaySettings.height
             , $displaySettings.width
-            , { margins: 50 }
+            , { leftMargin: 5, rightMargin: 85, topMargin: 5, bottomMargin: 50 }
             , 10
             , ["poison-cloud.svg"]
         );
-	console.table(toxicClouds);
+	// console.table(toxicClouds);
+	onMount(() => {
+		// console.table(toxicClouds);
+		// console.table($currentDotSettings.randomCoordinates);
+		console.log("MOUNTED!");
+		let survivingDots = [];
+		let overlapFlag = false;
+		$currentDotSettings.randomCoordinates.forEach((aDot, aDotIndex) => {
+			toxicClouds.forEach((aToxicCloud, index) => {
+				// console.log(aToxicCloud, index, aDot, aDotIndex);
+				if(
+					((aDot.x >= aToxicCloud.x && aDot.x <= (aToxicCloud.x + 75))
+					&& (aDot.y >= aToxicCloud.y && (aDot.y <= (aToxicCloud.y + 60))))
+				) {
+					overlapFlag = true;
+				}
+			});
+			if (!overlapFlag) {
+					survivingDots = [...survivingDots, aDot];
+				}
+			overlapFlag = false;
+		});
+		console.log(survivingDots);
+		$currentDotSettings.randomCoordinates = [...survivingDots];
+		// for (let item in toxicClouds) {
+		// 	console.log(item);
+		// }
+	});
+
+
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 
@@ -73,8 +104,14 @@
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
 		{#each toxicClouds as coords, index}
 			<image
-				width="60"
+				opacity="0" width="75"
 				x="{coords.x}" y="{coords.y}" href="./images/{coords.color}">
+				<animate 
+					attributeType="CSS" attributeName="opacity" 
+					begin="0s" from="0" to="1" dur="5s" 
+					values="0; 0.1; 1; 0.9; 0"
+					keyTimes="0; 0.25; 0.5; 0.75; 1"
+					repeatCount="indefinite" />
 				<title>{index} | {coords.color} | {coords.x}, {coords.y}</title>
 			</image>
 		{/each}

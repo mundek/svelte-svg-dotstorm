@@ -8,6 +8,7 @@
 		currentMapSettings,
 		chartData
         } from '../stores/activity-store.js';
+	console.clear();
     // console.table($currentDotSettings);
 	// console.table($currentMapSettings);
 	console.table($currentMapSettings.survivalData);

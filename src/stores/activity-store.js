@@ -28,7 +28,8 @@ const CURRENTMAPSETTINGS = {
     survivalData: [],
     currentGeneration: 0,
     resistantDotColor: "",
-    maxGeneration: MAX_GENERATION
+    maxGeneration: MAX_GENERATION,
+    reproduce: true
 }
 
 // ****************
@@ -57,8 +58,8 @@ const CURRENTMAPSETTINGS = {
 // configure initial settings here
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
-    dotRadius: 6,
-    dotsPerColor: 4,
+    dotRadius: 7,
+    dotsPerColor: 15,
     randomCoordinates: []
 }
 

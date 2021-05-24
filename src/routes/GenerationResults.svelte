@@ -12,6 +12,7 @@
     // add current generation's dot count to the survival data
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
     console.table($currentMapSettings.survivalData);
+    console.log("reproduce: " + $currentMapSettings.reproduce);
 
     console.log($currentMapSettings.currentGeneration);
     // Continue to next generation (or final results)
@@ -26,8 +27,9 @@
             if($currentMapSettings.margins) {
                 $displaySettings.marginParams 
                     = $currentMapSettings.margins[$currentMapSettings.currentGeneration];
-            } 
-            for (let item in $dotCount) {
+            }
+            if ($currentMapSettings.reproduce) {
+                for (let item in $dotCount) {
                 // console.log(item, $dotCount[item]);
                 newRandCoords = newRandCoords.concat(generateRandCoordinates(
                     $displaySettings.height,
@@ -36,8 +38,9 @@
                     (parseInt($dotCount[item]) * 2),
                     [item]
                 ));
+                }
+                $currentDotSettings.randomCoordinates = [...newRandCoords];
             }
-            $currentDotSettings.randomCoordinates = [...newRandCoords];
             // console.table($currentDotSettings.randomCoordinates);
             // console.table($currentMapSettings);
             replace("/" + $currentMapSettings.mapRoute);

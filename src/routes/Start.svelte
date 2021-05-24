@@ -34,6 +34,7 @@
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             console.log(selectedMap.maxGenerations);
             $currentMapSettings.maxGeneration = selectedMap.maxGenerations;
+            $currentMapSettings.reproduce = selectedMap.reproduce;
             console.log($currentMapSettings.maxGeneration);
             replace("/" + $currentMapSettings.mapRoute);
         }

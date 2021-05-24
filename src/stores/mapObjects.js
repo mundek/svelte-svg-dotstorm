@@ -4,14 +4,16 @@ export let mapObjects = [
         mapRoute: "baseline",
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
         briefDescription: "An autumn forest",
-        maxGenerations: 3
+        maxGenerations: 3,
+        reproduce: true
     },
     {
         mapName: "Climate Change Scenario",
         mapRoute: "climate-change",
         mapFiles: ["NOMAP", "MAP-climate.change.forest.jpg", "MAP-climate.change.forest.jpg", "MAP-climate.change.forest.jpg"],
         briefDescription: "A forest under stress from climate change",
-        maxGenerations: 3
+        maxGenerations: 3,
+        reproduce: true
     },
     {
         mapName: "Urban Sprawl Scenario",
@@ -24,27 +26,31 @@ export let mapObjects = [
             { leftMargin: 200, rightMargin: 200, topMargin: 10, bottomMargin: 10 }, 
             { leftMargin: 300, rightMargin: 300, topMargin: 10, bottomMargin: 10 }
         ],
-        maxGenerations: 3
+        maxGenerations: 3,
+        reproduce: true
     },
     {
         mapName: "Exotic Species Scenario",
         mapRoute: "exotic-species",
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest-50pct.exotic.species.jpg", "MAP-exotic.species.yellowed.forest.jpg"],
         briefDescription: "A forest infested with an exotic species",
-        maxGenerations: 3
+        maxGenerations: 3,
+        reproduce: true
     },
     {
         mapName: "Pesticide Resistance Scenario",
         mapRoute: "pesticide-resistance",
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
         briefDescription: "A forest infested with a species that is developing pesticide resistance",
-        maxGenerations: 5
+        maxGenerations: 5,
+        reproduce: true
     },
     {
         mapName: "Toxin Release Scenario",
         mapRoute: "toxic-release",
         mapFiles: ["NOMAP", "MAP-toxic.release.yellowed.forest.jpg", "MAP-toxic.release.yellowed.forest.jpg", "MAP-toxic.release.yellowed.forest.jpg"],
         briefDescription: "A toxin is regularly released into the forest",
-        maxGenerations: 3
+        maxGenerations: 3,
+        reproduce: false
     }
 ]
