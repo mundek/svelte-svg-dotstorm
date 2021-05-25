@@ -8,6 +8,8 @@
 		currentMapSettings,
 		generateRandCoordinates
 	} from '../stores/activity-store.js';
+	console.clear();
+
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// console.log($currentMapSettings.currentGeneration);

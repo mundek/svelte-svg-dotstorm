@@ -3,7 +3,7 @@ export let mapObjects = [
         mapName: "Baseline Scenario",
         mapRoute: "baseline",
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg", "MAP-autumn.forest.jpg"],
-        briefDescription: "An autumn forest",
+        briefDescription: "An autumn forest (this scenario must be completed first)",
         maxGenerations: 3,
         reproduce: true
     },

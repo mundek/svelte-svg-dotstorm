@@ -8,6 +8,7 @@
         generateRandCoordinates, 
         currentMapSettings
     } from '../stores/activity-store.js';
+    console.clear();
 
     // add current generation's dot count to the survival data
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;

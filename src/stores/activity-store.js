@@ -13,6 +13,11 @@ const DISPLAYSETTINGS = {
     }
 }
 
+const COMPLETEDROUTES = {
+    routes: [],
+    baselineCompleted: false
+};
+
 const CURRENTMAPSETTINGS = {
     // copy these settings when user chooses scenario
     mapName: "",
@@ -29,34 +34,11 @@ const CURRENTMAPSETTINGS = {
     reproduce: true
 }
 
-// ****************
-// for debugging
-// ****************
-// CURRENTMAPSETTINGS.survivalData = [
-//     {
-//         burlywood: 12,
-//         cornflowerblue: 3,
-//         mediumseagreen: 4,
-//         orange: 2
-//     },
-//     {
-//         burlywood: 1,
-//         cornflowerblue: 15,
-//         mediumseagreen: 21,
-//         orange: 6
-//     },    {
-//         burlywood: 12,
-//         cornflowerblue: 23,
-//         mediumseagreen: 67,
-//         orange: 9
-//     },    
-// ]
-
 // configure initial settings here
 const INITIALDOTSETTINGS = {
     dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
     dotRadius: 7,
-    dotsPerColor: 15,
+    dotsPerColor: 4,
     randomCoordinates: []
 }
 
@@ -71,6 +53,7 @@ export const displaySettings = writable(DISPLAYSETTINGS);
 export const currentMapSettings = writable(CURRENTMAPSETTINGS);
 export const initialDotSettings = readable(INITIALDOTSETTINGS);
 export const currentDotSettings = writable(CURRENTDOTSETTINGS);
+export const completedRoutes = writable(COMPLETEDROUTES);
 
 // derived value returns totals for each dot color
 export const dotCount = derived(currentDotSettings, $currentDotSettings => {

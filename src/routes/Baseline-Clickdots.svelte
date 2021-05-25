@@ -5,9 +5,11 @@
 		dotCount,
 		currentMapSettings
 	} from '../stores/activity-store.js';
+	console.clear();
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	console.log($currentMapSettings.currentGeneration);
+
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 	

@@ -2,19 +2,14 @@
 	import { replace } from 'svelte-spa-router';
 	import Chart from '../components/LineChart.svelte';
 	// activity-store data objects and function
-	import { displaySettings, 
-		currentDotSettings, 
-		dotCount,
-		currentMapSettings,
-		chartData
+	import { currentMapSettings,
+		completedRoutes
         } from '../stores/activity-store.js';
 	console.clear();
-    // console.table($currentDotSettings);
-	// console.table($currentMapSettings);
-	console.table($currentMapSettings.survivalData);
-	console.table($chartData);
 
-    function startActivity() {
+    function restartActivity() {
+		$completedRoutes.routes = [...$completedRoutes.routes, $currentMapSettings.mapRoute];
+		$completedRoutes.baselineFlag = true;
 		$currentMapSettings = {
 			// copy these settings when user chooses scenario
 			mapName: "",
@@ -39,7 +34,7 @@
 	<h1>THE FINAL RESULTS</h1>
 	<div style="width: 500px; height: 300px"><Chart/></div>
 	<form>
-		<button on:click|preventDefault="{startActivity}">Select Another Activity</button>
+		<button on:click|preventDefault="{restartActivity}">Select Another Activity</button>
 	</form>
 </body>
 

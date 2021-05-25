@@ -1,41 +1,38 @@
 <script>
     import { replace } from 'svelte-spa-router';
 	import { mapObjects } from '../stores/mapObjects.js';
-    // console.table(mapObjects);
     let selectedMap;
+    console.clear();
 
     import { initialDotSettings, 
         currentDotSettings, 
         displaySettings, 
         generateRandCoordinates, 
         currentMapSettings, 
-        dotCount } from '../stores/activity-store.js';
+        dotCount,
+        completedRoutes } from '../stores/activity-store.js';
 
+    console.log($completedRoutes);
     function startActivity() {
         $currentDotSettings = {...$initialDotSettings};
         // generate the initial array of random coordinates
         $currentDotSettings.randomCoordinates = generateRandCoordinates(
-            $displaySettings.height
-            , $displaySettings.width
-            , $displaySettings.marginParams
-            , $currentDotSettings.dotsPerColor
-            , $currentDotSettings.dotColors
+            $displaySettings.height,
+            $displaySettings.width,
+            $displaySettings.marginParams,
+            $currentDotSettings.dotsPerColor,
+            $currentDotSettings.dotColors
         );
-        // console.table($currentDotSettings);
-        // console.table(selectedMap.mapFiles);
         if(selectedMap) {
             $currentMapSettings.mapFiles = selectedMap.mapFiles;
             $currentMapSettings.mapRoute = selectedMap.mapRoute;
             if($currentMapSettings.margins) {
                 $currentMapSettings.margins = selectedMap.margins;
             }
-            console.table($dotCount);
             $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
-            console.log(selectedMap.maxGenerations);
             $currentMapSettings.maxGeneration = selectedMap.maxGenerations;
             $currentMapSettings.reproduce = selectedMap.reproduce;
-            console.log($currentMapSettings.maxGeneration);
             replace("/" + $currentMapSettings.mapRoute);
         }
     }
@@ -45,7 +42,15 @@
     <form>
         <select bind:value={selectedMap}>
             {#each mapObjects as map}
-                <option value={map}> {map.mapName} </option>
+                {#if ($completedRoutes.baselineFlag) && !($completedRoutes.routes.includes(map.mapRoute))}
+                    <option value={map}>{map.mapName}</option>
+                {:else if ($completedRoutes.routes.includes(map.mapRoute))}
+                    <option value={map} disabled>{map.mapName}</option>
+                {:else if (map.mapRoute === "baseline")}
+                    <option value={map}>{map.mapName}</option>
+                {:else}
+                    <option value={map} disabled>{map.mapName}</option>
+                {/if}
             {/each}
         </select>
         <button on:click|preventDefault="{startActivity}">Start Activity</button>
