@@ -3,9 +3,12 @@
 	import Chart from '../components/LineChart.svelte';
 	// activity-store data objects and function
 	import { currentMapSettings,
-		completedRoutes
+		completedRoutes,
+		chartData
         } from '../stores/activity-store.js';
 	console.clear();
+	console.table($chartData);
+	let finalData = [...$chartData];
 
     function restartActivity() {
 		$completedRoutes.routes = [...$completedRoutes.routes, $currentMapSettings.mapRoute];
@@ -32,12 +35,45 @@
 
 <body>
 	<h1>THE FINAL RESULTS</h1>
-	<div style="width: 500px; height: 300px"><Chart/></div>
+	<h2>{$currentMapSettings.mapName}</h2>
+	<div style="width: 600px; height: 375px"><Chart/></div>
+	<hr/>
+	<table>
+		<thead>
+			<tr>
+				<th>Color</th>
+				{#each finalData[0].points as aPoint}
+					<th>Gen. {aPoint.x}</th>
+				{/each}
+			</tr>
+		</thead>
+		<tbody>
+			{#each finalData as aDataset}
+				<tr>
+					<td bgcolor="{aDataset.color}">{aDataset.color}</td>
+					{#each aDataset.points as aPoint}
+						<td bgcolor="{aDataset.color}">{aPoint.y}</td>
+					{/each}
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+	{#if $currentMapSettings.resistantDotColor}
+		<h3>Resistant dot color: {$currentMapSettings.resistantDotColor}</h3>
+	{/if}
+	<hr/>
 	<form>
 		<button on:click|preventDefault="{restartActivity}">Select Another Activity</button>
 	</form>
 </body>
-
+<!--
+	{
+		color: "",
+		points: [
+			n: {x:n, y:n}
+		]
+	}
+-->
 <style>
 
 </style>

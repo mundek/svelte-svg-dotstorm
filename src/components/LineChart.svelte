@@ -5,7 +5,7 @@
 		currentMapSettings
 		} from '../stores/activity-store.js';
 
-	console.table($chartData);
+	// console.table($chartData);
 	$chartData.forEach((el, i) => {
 		console.log(el.color);
 		var style = document.createElement('style');
@@ -17,8 +17,8 @@
 </script>
 
 <div class="chart">
-	<Pancake.Chart x1={0} x2={$currentMapSettings.maxGeneration} y1={0} y2={120}>
-		<Pancake.Box x2={$currentMapSettings.maxGeneration} y2={120}>
+	<Pancake.Chart x1={0} x2={$currentMapSettings.maxGeneration} y1={0} y2={100}>
+		<Pancake.Box x2={$currentMapSettings.maxGeneration} y2={100}>
 			<div class="axes"></div>
 		</Pancake.Box>
 		
@@ -43,7 +43,7 @@
 <style>
 	.chart {
 		height: 100%;
-		padding: 3em 2em 2em 3em;
+		padding: 1em 1em 2em 1em;
 		box-sizing: border-box;
 	}
 	.axes {

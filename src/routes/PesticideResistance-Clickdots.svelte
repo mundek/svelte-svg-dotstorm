@@ -14,7 +14,7 @@
 
 	// initialize flag for setting pesticide resistance for last two generations
 	let leastColor = "abcdefg123";
-	if($currentMapSettings.currentGeneration == 3) {
+	if($currentMapSettings.currentGeneration == 4) {
 		// console.table($currentMapSettings.survivalData[2]);
 		let lowCount = 9999999; // arbitrarily high, and unlikely, value
 		$currentDotSettings.dotColors.forEach((item) => {

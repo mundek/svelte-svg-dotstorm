@@ -11,7 +11,7 @@
 </script>
 
 <main>
-	<h1>App: {appName}!</h1>
+	<h1>{appName}</h1>
 	<div>
 		<hr/>
 		<Router routes={$routes} style="width: {$displaySettings.width}; height: auto"/>

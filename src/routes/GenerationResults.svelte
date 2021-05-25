@@ -9,7 +9,8 @@
         currentMapSettings
     } from '../stores/activity-store.js';
     console.clear();
-
+    console.log("curGen: " + $currentMapSettings.currentGeneration);
+    console.log("maxGen: " + $currentMapSettings.maxGeneration);
     // add current generation's dot count to the survival data
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
     console.table($currentMapSettings.survivalData);
@@ -19,8 +20,6 @@
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
-        console.log("curGen: " + $currentMapSettings.currentGeneration);
-        console.log("maxGen: " + $currentMapSettings.maxGeneration);
         if ($currentMapSettings.currentGeneration < $currentMapSettings.maxGeneration) {
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             let newRandCoords = [];
@@ -55,6 +54,10 @@
     <h1>THE RESULTS</h1>
     <p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
     <form>
-        <button on:click|preventDefault="{continueActivity}">Next Generation</button>
+        {#if (($currentMapSettings.currentGeneration) < $currentMapSettings.maxGeneration)}
+            <button on:click|preventDefault="{continueActivity}">Next Generation</button>
+        {:else}
+            <button on:click|preventDefault="{continueActivity}">Final Results</button>
+        {/if}
     </form>
 </main>

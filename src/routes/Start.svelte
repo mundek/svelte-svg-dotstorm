@@ -24,6 +24,7 @@
             $currentDotSettings.dotColors
         );
         if(selectedMap) {
+            $currentMapSettings.mapName = selectedMap.mapName;
             $currentMapSettings.mapFiles = selectedMap.mapFiles;
             $currentMapSettings.mapRoute = selectedMap.mapRoute;
             if($currentMapSettings.margins) {
