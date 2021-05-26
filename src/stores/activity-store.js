@@ -120,14 +120,31 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
         : (marginSettings.htMargins) ? currMargins.bottomMargin = marginSettings.htMargins
         : (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.bottomMargin = 0;
 
+    function overlapCheck(dotArr, x, y) {
+        flag = false;
+        dotArr.forEach((item) => {
+            if(item.x === x && item.y === y) {
+                flag = true;
+            }
+            return flag;
+        });
+    }
     // generate the same number of dots for each color passed in, giving each dot random coordinates
     // NOTE: No checking for full or partial overlap
     let newDots = [];
     for (var i=0; i<colors.length; i++) {
         for (var j=0; j<count; j++) {
+            let the_X = (Math.round((Math.random() * (width - (currMargins.leftMargin + currMargins.rightMargin)))) + (currMargins.leftMargin));
+            let the_Y = (Math.round((Math.random() * (height - (currMargins.topMargin + currMargins.bottomMargin)))) + (currMargins.topMargin));
+            if (overlapCheck(newDots, the_X, the_Y)) {
+                the_X = the_X + Math.floor((Math.random() * 3) + 3);
+                if (Math.random() > .5) { the_X = (the_X * -1) };
+                the_y = the_y + Math.floor((Math.random() * 3) + 3);
+                if (Math.random() > .5) { the_Y = (the_Y * -1) };
+            }
             newDots.push({
-                x: (Math.round((Math.random() * (width - (currMargins.leftMargin + currMargins.rightMargin)))) + (currMargins.leftMargin)), 
-                y: (Math.round((Math.random() * (height - (currMargins.topMargin + currMargins.bottomMargin)))) + (currMargins.topMargin)),
+                x: the_X, 
+                y: the_Y,
                 color: colors[i]
             });
         }
