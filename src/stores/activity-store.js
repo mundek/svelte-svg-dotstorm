@@ -121,7 +121,7 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
         : (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.bottomMargin = 0;
 
     function overlapCheck(dotArr, x, y) {
-        flag = false;
+        let flag = false;
         dotArr.forEach((item) => {
             if(item.x === x && item.y === y) {
                 flag = true;
