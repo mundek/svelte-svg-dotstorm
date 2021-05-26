@@ -14,7 +14,6 @@
 		$completedRoutes.routes = [...$completedRoutes.routes, $currentMapSettings.mapRoute];
 		$completedRoutes.baselineFlag = true;
 		$currentMapSettings = {
-			// copy these settings when user chooses scenario
 			mapName: "",
 			mapRoute: "",
 			briefDescription: "",
@@ -24,10 +23,11 @@
 			currentColors: [],
 			currentDotCounts: [],
 			survivalData: [],
+			minRemaining: 20,
 			currentGeneration: 0,
 			resistantDotColor: "",
-			maxGeneration: 0,
-			reproduce: true
+			reproduce: true,
+			genMultiplier: 5
 		}
 		replace("/");
 	}
@@ -52,7 +52,7 @@
 				<tr>
 					<td bgcolor="{aDataset.color}">{aDataset.color}</td>
 					{#each aDataset.points as aPoint}
-						<td bgcolor="{aDataset.color}">{aPoint.y}</td>
+						<td>{aPoint.y}</td>
 					{/each}
 				</tr>
 			{/each}

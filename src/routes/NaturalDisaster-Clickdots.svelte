@@ -52,8 +52,6 @@
 		replace("/");
 	}
 
-	// Set percentage 
-	const MIN_REMAINING = 70;
 	// Track rounded integer percentage of dots remaining out of the current generation's starting total
 	$: percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
@@ -61,7 +59,7 @@
 			* 100
 		);
 
-	$: if (percentRemaining <= MIN_REMAINING) {
+	$: if (percentRemaining <= $currentMapSettings.minRemaining) {
 		replace("/genResults");
 	}
 	// click events on SVG dots call the removeDot function

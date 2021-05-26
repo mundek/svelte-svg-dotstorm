@@ -22,8 +22,6 @@
 		replace("/");
 	}
 
-	// Set percentage 
-	const MIN_REMAINING = 70;
 	// Track rounded integer percentage of dots remaining out of the current generation's starting total
 	$: percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
@@ -31,7 +29,7 @@
 			* 100
 		);
 
-	$: if (percentRemaining <= MIN_REMAINING) {
+	$: if (percentRemaining <= $currentMapSettings.minRemaining) {
 		replace("/genResults");
 	}
 	// click events on SVG dots call the removeDot function
@@ -62,7 +60,7 @@
 	</svg>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Generation: {$currentMapSettings.currentGeneration}</p>
+		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining} | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
 		<p>All gone!</p>
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>

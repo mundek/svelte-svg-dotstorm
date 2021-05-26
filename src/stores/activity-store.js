@@ -29,16 +29,18 @@ const CURRENTMAPSETTINGS = {
     currentColors: [],
     currentDotCounts: [],
     survivalData: [],
+    minRemaining: 20,
     currentGeneration: 0,
     resistantDotColor: "",
-    reproduce: true
+    reproduce: true,
+    genMultiplier: 5
 }
 
 // configure initial settings here
 const INITIALDOTSETTINGS = {
-    dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange"],
-    dotRadius: 7,
-    dotsPerColor: 4,
+    dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange", "blueviolet", "crimson", "darkkhaki", "darkturquoise", "lawngreen", "indigo"],
+    dotRadius: 17,
+    dotsPerColor: 5,
     randomCoordinates: []
 }
 

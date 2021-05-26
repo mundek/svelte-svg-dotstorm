@@ -4,6 +4,9 @@
     let selectedMap;
     console.clear();
 
+    // route debugging flag
+    let debugMaps = false;
+
     import { initialDotSettings, 
         currentDotSettings, 
         displaySettings, 
@@ -42,17 +45,23 @@
 <main>
     <form>
         <select bind:value={selectedMap}>
-            {#each mapObjects as map}
-                {#if ($completedRoutes.baselineFlag) && !($completedRoutes.routes.includes(map.mapRoute))}
+            {#if !(debugMaps)}
+                {#each mapObjects as map}
+                    {#if ($completedRoutes.baselineFlag) && (!$completedRoutes.routes.includes(map.mapRoute))}
+                        <option value={map}>{map.mapName}</option>
+                    {:else if ($completedRoutes.routes.includes(map.mapRoute))}
+                        <option value={map} disabled>{map.mapName}</option>
+                    {:else if (map.mapRoute === "baseline")}
+                        <option value={map}>{map.mapName}</option>
+                    {:else}
+                        <option value={map} disabled>{map.mapName}</option>
+                    {/if}
+                {/each}
+            {:else}
+                {#each mapObjects as map}
                     <option value={map}>{map.mapName}</option>
-                {:else if ($completedRoutes.routes.includes(map.mapRoute))}
-                    <option value={map} disabled>{map.mapName}</option>
-                {:else if (map.mapRoute === "baseline")}
-                    <option value={map}>{map.mapName}</option>
-                {:else}
-                    <option value={map} disabled>{map.mapName}</option>
-                {/if}
-            {/each}
+                {/each}
+            {/if}
         </select>
         <button on:click|preventDefault="{startActivity}">Start Activity</button>
         <p>Map Description: {selectedMap ? selectedMap.briefDescription : '[waiting...]'}</p>

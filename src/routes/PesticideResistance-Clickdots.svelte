@@ -1,11 +1,12 @@
 <script>
+	import { tick } from 'svelte';
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
 		dotCount,
 		currentMapSettings
 	} from '../stores/activity-store.js';
-	console.clear();
+	// console.clear();
 
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
@@ -19,8 +20,8 @@
 		let lowCount = 9999999; // arbitrarily high, and unlikely, value
 		$currentDotSettings.dotColors.forEach((item) => {
 			// console.table($currentMapSettings.survivalData[2][item]);
-			if(($currentMapSettings.survivalData[2][item] < lowCount) && ($currentMapSettings.survivalData[2][item] > 0)) {
-				lowCount = $currentMapSettings.survivalData[2][item];
+			if(($currentMapSettings.survivalData[3][item] < lowCount) && ($currentMapSettings.survivalData[3][item] > 0)) {
+				lowCount = $currentMapSettings.survivalData[3][item];
 				leastColor = item;
 			}
 			console.log(leastColor, lowCount);
@@ -38,8 +39,6 @@
 		replace("/");
 	}
 
-	// Set percentage 
-	const MIN_REMAINING = 70;
 	// Track rounded integer percentage of dots remaining out of the current generation's starting total
 	$: percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
@@ -47,11 +46,30 @@
 			* 100
 		);
 
-	$: if (percentRemaining <= MIN_REMAINING) {
+	$: if ((percentRemaining <= $currentMapSettings.minRemaining)) {
 		replace("/genResults");
 	}
+
+	let remainingColors = Object.values($dotCount).length;
+	$: if (remainingColors < 2) {
+		replace("/genResults");
+	}
+
+	function updateRemainingColors() {
+		let tempDotCount = 0;
+		console.table($dotCount);
+		const dotCounts = Object.values($dotCount);
+		// console.log(dotCounts);
+		dotCounts.forEach((count) => {
+			if (count > 0) {
+				tempDotCount++;
+			}
+		});
+		remainingColors = tempDotCount;
+	}
+
 	// click events on SVG dots call the removeDot function
-	function removeDot(event) {
+	async function removeDot(event) {
 		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
 		if(event.target.attributes.fill.nodeValue != $currentMapSettings.resistantDotColor) {
 			let theID = parseInt(event.target.id);
@@ -61,7 +79,10 @@
 				$currentDotSettings.randomCoordinates
 				.slice(0,theID)
 				.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+			await tick();
 		}
+		updateRemainingColors();
+		console.log(remainingColors);
 	}
 </script>
 
@@ -80,7 +101,7 @@
 	</svg>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Generation: {$currentMapSettings.currentGeneration}</p>
+		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining} | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
 		<p>All gone!</p>
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>

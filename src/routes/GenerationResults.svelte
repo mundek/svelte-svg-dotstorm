@@ -8,7 +8,7 @@
         generateRandCoordinates, 
         currentMapSettings
     } from '../stores/activity-store.js';
-    console.clear();
+    // console.clear();
     console.log("curGen: " + $currentMapSettings.currentGeneration);
     console.log("maxGen: " + $currentMapSettings.maxGeneration);
     // add current generation's dot count to the survival data
@@ -17,6 +17,7 @@
     console.log("reproduce: " + $currentMapSettings.reproduce);
 
     console.log($currentMapSettings.currentGeneration);
+    console.log("multiplier: " + $currentMapSettings.genMultiplier);
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
@@ -35,7 +36,7 @@
                     $displaySettings.height,
                     $displaySettings.width,
                     $displaySettings.marginParams,
-                    (parseInt($dotCount[item]) * 2),
+                    (parseInt($dotCount[item]) * ($currentMapSettings.genMultiplier)),
                     [item]
                 ));
                 }
