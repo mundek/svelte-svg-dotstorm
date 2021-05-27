@@ -5,7 +5,7 @@
 		dotCount,
 		currentMapSettings
 	} from '../stores/activity-store.js';
-	console.clear();
+	// console.clear();
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// Router utility function

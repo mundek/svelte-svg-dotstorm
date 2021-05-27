@@ -6,8 +6,8 @@
 		completedRoutes,
 		chartData
         } from '../stores/activity-store.js';
-	console.clear();
-	console.table($chartData);
+	// console.clear();
+	// console.table($chartData);
 	let finalData = [...$chartData];
 
     function restartActivity() {
@@ -41,6 +41,7 @@
 	<table>
 		<thead>
 			<tr>
+				<th>&nbsp;</th>
 				<th>Color</th>
 				{#each finalData[0].points as aPoint}
 					<th>Gen. {aPoint.x}</th>
@@ -50,7 +51,8 @@
 		<tbody>
 			{#each finalData as aDataset}
 				<tr>
-					<td bgcolor="{aDataset.color}">{aDataset.color}</td>
+					<td bgcolor="{aDataset.color}">&nbsp;</td>
+					<td>{aDataset.color}</td>
 					{#each aDataset.points as aPoint}
 						<td>{aPoint.y}</td>
 					{/each}
@@ -66,14 +68,17 @@
 		<button on:click|preventDefault="{restartActivity}">Select Another Activity</button>
 	</form>
 </body>
-<!--
-	{
-		color: "",
-		points: [
-			n: {x:n, y:n}
-		]
-	}
--->
-<style>
 
+<style>
+	button {
+		background-color: #4CAF50; /* Green */
+		border: 1px solid black;
+		color: white;
+		padding: 8px 12px;
+		text-align: center;
+		text-decoration: none;
+		font-weight: bolder;
+		display: inline-block;
+		font-size: 20px;
+	}
 </style>

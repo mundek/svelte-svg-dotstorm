@@ -9,15 +9,15 @@
         currentMapSettings
     } from '../stores/activity-store.js';
     // console.clear();
-    console.log("curGen: " + $currentMapSettings.currentGeneration);
-    console.log("maxGen: " + $currentMapSettings.maxGeneration);
+    // console.log("curGen: " + $currentMapSettings.currentGeneration);
+    // console.log("maxGen: " + $currentMapSettings.maxGeneration);
     // add current generation's dot count to the survival data
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
-    console.table($currentMapSettings.survivalData);
-    console.log("reproduce: " + $currentMapSettings.reproduce);
+    // console.table($currentMapSettings.survivalData);
+    // console.log("reproduce: " + $currentMapSettings.reproduce);
 
-    console.log($currentMapSettings.currentGeneration);
-    console.log("multiplier: " + $currentMapSettings.genMultiplier);
+    // console.log($currentMapSettings.currentGeneration);
+    // console.log("multiplier: " + $currentMapSettings.genMultiplier);
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
@@ -52,8 +52,15 @@
 </script>
 
 <main>
-    <h1>THE RESULTS</h1>
-    <p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+    <h1>RESULTS</h1>
+    <p>{$currentMapSettings.currentGeneration} of {$currentMapSettings.maxGeneration} generations completed</p>
+    <ul>
+        {#each $currentDotSettings.dotColors as aColor, index}
+            <li>
+                <span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}
+            </li>
+        {/each}
+    </ul>
     <form>
         {#if (($currentMapSettings.currentGeneration) < $currentMapSettings.maxGeneration)}
             <button on:click|preventDefault="{continueActivity}">Next Generation</button>
@@ -62,3 +69,17 @@
         {/if}
     </form>
 </main>
+
+<style>
+     button {
+		background-color: #4CAF50; /* Green */
+		border: 1px solid black;
+		color: white;
+		padding: 8px 12px;
+		text-align: center;
+		text-decoration: none;
+		font-weight: bolder;
+		display: inline-block;
+		font-size: 20px;
+	}
+</style>

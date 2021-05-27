@@ -24,7 +24,7 @@
 				lowCount = $currentMapSettings.survivalData[3][item];
 				leastColor = item;
 			}
-			console.log(leastColor, lowCount);
+			// console.log(leastColor, lowCount);
 		});
 		$currentMapSettings.resistantDotColor = leastColor;
 	}
@@ -57,7 +57,7 @@
 
 	function updateRemainingColors() {
 		let tempDotCount = 0;
-		console.table($dotCount);
+		// console.table($dotCount);
 		const dotCounts = Object.values($dotCount);
 		// console.log(dotCounts);
 		dotCounts.forEach((count) => {
@@ -82,7 +82,7 @@
 			await tick();
 		}
 		updateRemainingColors();
-		console.log(remainingColors);
+		// console.log(remainingColors);
 	}
 </script>
 

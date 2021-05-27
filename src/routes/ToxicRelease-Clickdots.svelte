@@ -8,7 +8,7 @@
 		currentMapSettings,
 		generateRandCoordinates
 	} from '../stores/activity-store.js';
-	console.clear();
+	// console.clear();
 
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
@@ -22,7 +22,6 @@
         );
 	// console.table(toxicClouds);
 	onMount(() => {
-		console.log("MOUNTED!");
 		let survivingDots = [];
 		let overlapFlag = false;
 		$currentDotSettings.randomCoordinates.forEach((aDot, aDotIndex) => {
@@ -39,7 +38,6 @@
 		// console.log(survivingDots);
 		$currentDotSettings.randomCoordinates = [...survivingDots];
 	});
-
 
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
@@ -84,7 +82,6 @@
 	function rs() {
 		return arguments[rn(1, arguments.length) - 1];
 	}
-
 </script>
 
 <main>

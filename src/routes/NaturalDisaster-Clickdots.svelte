@@ -8,7 +8,7 @@
 		currentMapSettings,
 		generateRandCoordinates
 	} from '../stores/activity-store.js';
-	console.clear();
+	// console.clear();
 
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
@@ -22,7 +22,6 @@
         );
 	// console.table(toxicClouds);
 	onMount(() => {
-		console.log("MOUNTED!");
 		let survivingDots = [];
 		let overlapFlag = false;
 		$currentDotSettings.randomCoordinates.forEach((aDot, aDotIndex) => {

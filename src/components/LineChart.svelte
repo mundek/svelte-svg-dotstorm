@@ -7,7 +7,7 @@
 
 	// console.table($chartData);
 	$chartData.forEach((el, i) => {
-		console.log(el.color);
+		// console.log(el.color);
 		var style = document.createElement('style');
 		document.head.appendChild(style);
 		style.sheet.insertRule('path.data' + i +
@@ -17,8 +17,8 @@
 </script>
 
 <div class="chart">
-	<Pancake.Chart x1={0} x2={$currentMapSettings.maxGeneration} y1={0} y2={100}>
-		<Pancake.Box x2={$currentMapSettings.maxGeneration} y2={100}>
+	<Pancake.Chart x1={0} x2={$currentMapSettings.maxGeneration} y1={0} y2={25}>
+		<Pancake.Box x2={$currentMapSettings.maxGeneration} y2={25}>
 			<div class="axes"></div>
 		</Pancake.Box>
 		
@@ -26,7 +26,7 @@
 			<span class="x label">{value}</span>
 		</Pancake.Grid>
 
-		<Pancake.Grid horizontal count={5} let:value let:first>
+		<Pancake.Grid horizontal count={10} let:value let:first>
 			<span class="y label">{value}</span>
 		</Pancake.Grid>
 

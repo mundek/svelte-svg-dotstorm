@@ -7,8 +7,8 @@ const DISPLAYSETTINGS = {
     width: 800,
     height: 600,
     marginParams: {
-        margins: 10,
-        topMargin: 200, // specific margin settings also available
+        htMargins: 10,
+        wdMargins: 15, // specific margin settings also available
         // leftMargin: 200 // wdMargins and htMargins (left/right and top/bottom, respectively)
     }
 }
@@ -38,8 +38,14 @@ const CURRENTMAPSETTINGS = {
 
 // configure initial settings here
 const INITIALDOTSETTINGS = {
-    dotColors: ["burlywood", "cornflowerblue", "mediumseagreen", "orange", "blueviolet", "crimson", "darkkhaki", "darkturquoise", "lawngreen", "indigo"],
-    dotRadius: 17,
+    dotColors: [
+        "burlywood", "cornflowerblue",
+        "mediumseagreen", "orange", 
+        "blueviolet", "crimson", 
+        "gold", "darkturquoise", 
+        "lawngreen", "indigo"
+    ],
+    dotRadius: 8,
     dotsPerColor: 5,
     randomCoordinates: []
 }
@@ -94,7 +100,7 @@ export const chartData = derived(currentMapSettings, $currentMapSettings => {
         // console.log(currObject['color'], color, $currentMapSettings.survivalData[0][color]);
         // console.table(chartPoints);
     }
-    console.table(chartPoints);
+    // console.table(chartPoints);
     return chartPoints;
 });
 
@@ -106,19 +112,23 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     // set individual margins (top/right/bottom/left)
     (marginSettings.leftMargin) ? currMargins.leftMargin = marginSettings.leftMargin
         : (marginSettings.wdMargins) ? currMargins.leftMargin = marginSettings.wdMargins
-        : (marginSettings.margins) ? currMargins.leftMargin = marginSettings.margins : currMargins.leftMargin = 0;
+        : (marginSettings.margins) ? currMargins.leftMargin = marginSettings.margins 
+        : currMargins.leftMargin = 0;
 
     (marginSettings.rightMargin) ? currMargins.rightMargin = marginSettings.rightMargin
         : (marginSettings.wdMargins) ? currMargins.rightMargin = marginSettings.wdMargins
-        : (marginSettings.margins) ? currMargins.rightMargin = marginSettings.margins : currMargins.rightMargin = 0;
+        : (marginSettings.margins) ? currMargins.rightMargin = marginSettings.margins 
+        : currMargins.rightMargin = 0;
 
     (marginSettings.topMargin) ? currMargins.topMargin = marginSettings.topMargin
         : (marginSettings.htMargins) ? currMargins.topMargin = marginSettings.htMargins
-        : (marginSettings.margins) ? currMargins.topMargin = marginSettings.margins : currMargins.topMargin = 0;
+        : (marginSettings.margins) ? currMargins.topMargin = marginSettings.margins 
+        : currMargins.topMargin = 0;
 
     (marginSettings.bottomMargin) ? currMargins.bottomMargin = marginSettings.bottomMargin
         : (marginSettings.htMargins) ? currMargins.bottomMargin = marginSettings.htMargins
-        : (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins : currMargins.bottomMargin = 0;
+        : (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins 
+        : currMargins.bottomMargin = 0;
 
     function overlapCheck(dotArr, x, y) {
         let flag = false;

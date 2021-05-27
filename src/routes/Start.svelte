@@ -2,7 +2,7 @@
     import { replace } from 'svelte-spa-router';
 	import { mapObjects } from '../stores/mapObjects.js';
     let selectedMap;
-    console.clear();
+    // console.clear();
 
     // route debugging flag
     let debugMaps = false;
@@ -15,7 +15,7 @@
         dotCount,
         completedRoutes } from '../stores/activity-store.js';
 
-    console.log($completedRoutes);
+    // console.log($completedRoutes);
     function startActivity() {
         $currentDotSettings = {...$initialDotSettings};
         // generate the initial array of random coordinates
