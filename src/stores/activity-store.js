@@ -10,7 +10,8 @@ const DISPLAYSETTINGS = {
         htMargins: 10,
         wdMargins: 15, // specific margin settings also available
         // leftMargin: 200 // wdMargins and htMargins (left/right and top/bottom, respectively)
-    }
+    },
+    debugging: false
 }
 
 const COMPLETEDROUTES = {
@@ -18,7 +19,7 @@ const COMPLETEDROUTES = {
     baselineCompleted: false
 };
 
-const CURRENTMAPSETTINGS = {
+let CURRENTMAPSETTINGS = {
     // copy these settings when user chooses scenario
     mapName: "",
     mapRoute: "",

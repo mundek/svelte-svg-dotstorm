@@ -1,11 +1,9 @@
 <script>
     import { replace } from 'svelte-spa-router';
 	import { mapObjects } from '../stores/mapObjects.js';
+
     let selectedMap;
     // console.clear();
-
-    // route debugging flag
-    let debugMaps = false;
 
     import { initialDotSettings, 
         currentDotSettings, 
@@ -45,7 +43,7 @@
 <main>
     <form>
         <select bind:value={selectedMap}>
-            {#if !(debugMaps)}
+            {#if !($displaySettings.debugging)}
                 {#each mapObjects as map}
                     {#if ($completedRoutes.baselineFlag) && (!$completedRoutes.routes.includes(map.mapRoute))}
                         <option value={map}>{map.mapName}</option>

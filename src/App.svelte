@@ -28,10 +28,10 @@
 	} */
 
 	h1 {
-		color: #ff3e00;
+		color: #008800;
 		/* text-transform: uppercase; */
-		font-size: 1em;
-		font-weight: 400;
+		font-size: 1.25em;
+		font-weight: 700;
 	}
 
 	@media (min-width: 640px) {

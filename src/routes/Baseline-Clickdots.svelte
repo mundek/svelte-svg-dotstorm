@@ -43,8 +43,20 @@
 			.slice(0,theID)
 			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
 	}
+	function returnToMenu() {
+		// resetAppState();
+		$currentMapSettings = {
+			...$currentMapSettings, 
+			currentGeneration: 0
+		};
+		location.reload();
+		// replace("/");
+	}
 </script>
 
+<div class="menu-btn">
+	<button on:click|preventDefault="{returnToMenu}">Menu</button>
+</div>
 <main>
 	<svg width="{$displaySettings.width}" height="{$displaySettings.height}" style="background-color:#D80000">
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
@@ -59,13 +71,18 @@
 		{/each}
 	</svg>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
-		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining}% | Generation: {$currentMapSettings.currentGeneration}</p>
+		{#if $displaySettings.debugging}
+			<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+		{/if}
+		<p style="color:darkblue;font-size:1em;">Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining}% | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
 		<p>All gone!</p>
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
 	{/if}
 </main>
+<aside>
+    <p>DESCRIPTION OF SCENARIO</p>
+</aside>
 
 <style>
 	main {
@@ -77,6 +94,10 @@
 
 	p {
 		font-size: .5em;
+	}
+
+	.menu-btn {
+		text-align: right;
 	}
 
 	@media (min-width: 640px) {
