@@ -16,7 +16,7 @@ const DISPLAYSETTINGS = {
 
 const COMPLETEDROUTES = {
     routes: [],
-    baselineCompleted: false
+    baselineFlag: true
 };
 
 let CURRENTMAPSETTINGS = {

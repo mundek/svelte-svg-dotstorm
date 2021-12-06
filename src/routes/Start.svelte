@@ -45,12 +45,10 @@
         <select bind:value={selectedMap}>
             {#if !($displaySettings.debugging)}
                 {#each mapObjects as map}
-                    {#if ($completedRoutes.baselineFlag) && (!$completedRoutes.routes.includes(map.mapRoute))}
+                    {#if map.mapRoute === "baseline" || (($completedRoutes.baselineFlag) && (!$completedRoutes.routes.includes(map.mapRoute)))}
                         <option value={map}>{map.mapName}</option>
                     {:else if ($completedRoutes.routes.includes(map.mapRoute))}
                         <option value={map} disabled>{map.mapName}</option>
-                    {:else if (map.mapRoute === "baseline")}
-                        <option value={map}>{map.mapName}</option>
                     {:else}
                         <option value={map} disabled>{map.mapName}</option>
                     {/if}
