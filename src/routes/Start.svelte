@@ -60,6 +60,7 @@
             {/if}
         </select>
         <button on:click|preventDefault="{startActivity}">Start Activity</button>
-        <p>Map Description: {selectedMap ? selectedMap.briefDescription : '[waiting...]'}</p>
+        <h3>Map Description</h3>
+        {@html selectedMap ? selectedMap.longDescription : '[waiting...]'}
     </form>
 </main>
