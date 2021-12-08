@@ -18,7 +18,6 @@
 			mapRoute: "",
 			briefDescription: "",
 			mapFiles: [],
-			margins: [],
 			// state settings for activity
 			currentColors: [],
 			currentDotCounts: [],

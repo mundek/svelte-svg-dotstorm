@@ -3,7 +3,8 @@
 	import { displaySettings, 
 		currentDotSettings, 
 		dotCount,
-		currentMapSettings
+		currentMapSettings,
+		repositionDots
 	} from '../stores/activity-store.js';
 	// console.clear();
 	// Scenario-specific settings and/or functions
@@ -36,11 +37,10 @@
 		let theID = parseInt(event.target.id);
 		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
 		// assignment will trigger svelte reactivity
-		$currentDotSettings.randomCoordinates = 
-			$currentDotSettings.randomCoordinates
-			.slice(0,theID)
-			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		let newRandomCoordinates = $currentDotSettings.randomCoordinates.slice(0,theID).concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		$currentDotSettings.randomCoordinates = repositionDots(newRandomCoordinates);
 	}
+
 	function returnToMenu() {
 		// resetAppState();
 		$currentMapSettings = {
@@ -52,10 +52,16 @@
 	}
 </script>
 
-<div class="menu-btn">
-	<button on:click|preventDefault="{returnToMenu}">Menu</button>
-</div>
 <main>
+	{#if $currentDotSettings.randomCoordinates.length > 0}
+		{#if $displaySettings.debugging}
+			<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+		{/if}
+		<p style="color:darkblue;font-size:1em;">Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining}% | Generation: {$currentMapSettings.currentGeneration}</p>
+	{:else}
+		<p>All gone!</p>
+		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+	{/if}
 	<svg width="{$displaySettings.width}" height="{$displaySettings.height}" style="background-color:#D80000">
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
 		{#each $currentDotSettings.randomCoordinates as coords, index}
@@ -68,17 +74,15 @@
 			</circle>
 		{/each}
 	</svg>
-	{#if $currentDotSettings.randomCoordinates.length > 0}
-		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-		<p>Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Generation: {$currentMapSettings.currentGeneration}</p>
-	{:else}
-		<p>All gone!</p>
-		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-	{/if}
+	<div><p>{$currentMapSettings.briefDescription}</p></div>
+	<div class="more-info">
+		<div class="tooltip">more information ...<span class="tooltiptext">{@html $currentMapSettings.longDescription}</span></div>
+	</div>
 </main>
-<aside>
-    <p>DESCRIPTION OF SCENARIO</p>
-</aside>
+
+<div class="menu-btn">
+	<button on:click|preventDefault="{returnToMenu}">Menu</button>
+</div>
 
 <style>
 	main {
@@ -89,16 +93,59 @@
 	}
 
 	p {
-		font-size: .5em;
+		font-size: 1em;
+	}
+
+	.more-info {
+		font-size: .33em;
+		font-weight: bolder;
+		color:darkslategray;
 	}
 
 	.menu-btn {
-		text-align: right;
+		text-align: left;
 	}
 
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
 		}
+	}
+
+	.tooltip {
+		position: relative;
+		display: inline-block;
+		border-bottom: 1px dotted black;
+	}
+
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		width: 500px;
+		background-color: black;
+		color: #fff;
+		font-size: 2em;
+		text-align: left;
+		border-radius: 6px;
+		padding: 5px 5px;
+		position: absolute;
+		z-index: 1;
+		bottom: 150%;
+		left: 0%;
+		margin-left: -200px;
+	}
+
+	.tooltip .tooltiptext::after {
+		content: "";
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		margin-left: -5px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: black transparent transparent transparent;
+	}
+
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
 	}
 </style>

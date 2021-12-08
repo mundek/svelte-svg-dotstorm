@@ -170,7 +170,7 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
 
 // function for randomly repositioning dots; called after a dot is removed
 export function repositionDots (theDots) {
-    // console.log(CURRENTMARGINSETTINGS);
+    console.log(CURRENTMARGINSETTINGS);
     // console.table(theDots);
     let theNewDots = [...theDots];
     theNewDots.filter((aDot, idx) => {
@@ -178,21 +178,26 @@ export function repositionDots (theDots) {
         let xOffset = Math.round(((Math.random() * 2) - 1) * (Math.floor(Math.random() * 45) + 1));
         let yOffset = Math.round(((Math.random() * 2) - 1) * (Math.floor(Math.random() * 45) + 1));
 
-        if (((aDot.x + xOffset) > DISPLAYSETTINGS.width - CURRENTMARGINSETTINGS.rightMargin) 
-        || ((aDot.x + xOffset) < CURRENTMARGINSETTINGS.leftMargin)) {
-            // console.log("xOffset!", idx);
-            xOffset = xOffset * (-1);
+        if ((aDot.x + xOffset) > DISPLAYSETTINGS.width - CURRENTMARGINSETTINGS.rightMargin) {
+            console.log("off right", idx);
+            xOffset = xOffset * -1;
+        } else if ((aDot.x + xOffset) < CURRENTMARGINSETTINGS.leftMargin) {
+            console.log("off left", idx);
+            xOffset = xOffset * -1;
+        } else {
+            aDot.x = aDot.x + xOffset;
         }
-        if (
-            ((aDot.y + yOffset) > DISPLAYSETTINGS.height - CURRENTMARGINSETTINGS.bottomMargin) 
-            || ((aDot.y + yOffset) < CURRENTMARGINSETTINGS.topMargin)) {
-            // console.log("yOffset!", idx);
-            yOffset = yOffset * (-1);
+        if ((aDot.y + yOffset) > DISPLAYSETTINGS.height - CURRENTMARGINSETTINGS.bottomMargin) {
+            console.log("off bottom", idx);
+            yOffset = yOffset * -1;
+        } else if ((aDot.y + yOffset) < CURRENTMARGINSETTINGS.topMargin) {
+            console.log("off top", idx);
+            yOffset = yOffset * -1;
+        } else {
+            aDot.y = aDot.y + yOffset;
         }
-        // console.log(`start: ${aDot.x}, ${aDot.y}; change: ${aDot.x + xOffset}, ${aDot.y + yOffset}`)
-        aDot.x = aDot.x + xOffset;
-        aDot.y = aDot.y + yOffset;
+        // console.log(`start: ${aDot.x}, ${aDot.y}; change: ${aDot.x + xOffset}, ${aDot.y + yOffset}`)        
     })
     // console.table(theNewDots);
-    return theDots;
+    return theNewDots;
 }

@@ -16,8 +16,6 @@
     // console.table($currentMapSettings.survivalData);
     // console.log("reproduce: " + $currentMapSettings.reproduce);
 
-    // console.log($currentMapSettings.currentGeneration);
-    // console.log("multiplier: " + $currentMapSettings.genMultiplier);
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
@@ -31,14 +29,14 @@
             }
             if ($currentMapSettings.reproduce) {
                 for (let item in $dotCount) {
-                // console.log(item, $dotCount[item]);
-                newRandCoords = newRandCoords.concat(generateRandCoordinates(
-                    $displaySettings.height,
-                    $displaySettings.width,
-                    $displaySettings.marginParams,
-                    (parseInt($dotCount[item]) * ($currentMapSettings.genMultiplier)),
-                    [item]
-                ));
+                    // console.log(item, $dotCount[item]);
+                    newRandCoords = newRandCoords.concat(generateRandCoordinates(
+                        $displaySettings.height,
+                        $displaySettings.width,
+                        $displaySettings.marginParams,
+                        (parseInt($dotCount[item]) * ($currentMapSettings.genMultiplier)),
+                        [item]
+                    ));
                 }
                 $currentDotSettings.randomCoordinates = [...newRandCoords];
             }

@@ -30,6 +30,11 @@
             $currentMapSettings.mapRoute = selectedMap.mapRoute;
             if($currentMapSettings.margins) {
                 $currentMapSettings.margins = selectedMap.margins;
+            } else {
+                $currentMapSettings.margins = {
+                    htMargins: 10,
+                    wdMargins: 15
+                }
             }
             $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
