@@ -24,6 +24,7 @@ let CURRENTMAPSETTINGS = {
     mapName: "",
     mapRoute: "",
     briefDescription: "",
+    longDescription: "",
     mapFiles: [],
     margins: [],
     // state settings for activity
@@ -57,6 +58,9 @@ const CURRENTDOTSETTINGS = {
     dotsPerColor: 0,
     randomCoordinates: []
 }
+
+// internal margin settings
+const CURRENTMARGINSETTINGS = { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 };
 
 export const displaySettings = writable(DISPLAYSETTINGS);
 export const currentMapSettings = writable(CURRENTMAPSETTINGS);
@@ -108,28 +112,28 @@ export const chartData = derived(currentMapSettings, $currentMapSettings => {
 // generate the same number of random coordinates for each color in the array passed to "colors"
 export function generateRandCoordinates (height, width, marginSettings, count, colors) {
     // set default currMargins object; updated below after parsing marginSettings
-    let currMargins = { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 };
+    // let currMargins = { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 };
 
     // set individual margins (top/right/bottom/left)
-    (marginSettings.leftMargin) ? currMargins.leftMargin = marginSettings.leftMargin
-        : (marginSettings.wdMargins) ? currMargins.leftMargin = marginSettings.wdMargins
-        : (marginSettings.margins) ? currMargins.leftMargin = marginSettings.margins 
-        : currMargins.leftMargin = 0;
+    (marginSettings.leftMargin) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.leftMargin
+        : (marginSettings.wdMargins) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.wdMargins
+        : (marginSettings.margins) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.margins 
+        : CURRENTMARGINSETTINGS.leftMargin = 0;
 
-    (marginSettings.rightMargin) ? currMargins.rightMargin = marginSettings.rightMargin
-        : (marginSettings.wdMargins) ? currMargins.rightMargin = marginSettings.wdMargins
-        : (marginSettings.margins) ? currMargins.rightMargin = marginSettings.margins 
-        : currMargins.rightMargin = 0;
+    (marginSettings.rightMargin) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.rightMargin
+        : (marginSettings.wdMargins) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.wdMargins
+        : (marginSettings.margins) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.margins 
+        : CURRENTMARGINSETTINGS.rightMargin = 0;
 
-    (marginSettings.topMargin) ? currMargins.topMargin = marginSettings.topMargin
-        : (marginSettings.htMargins) ? currMargins.topMargin = marginSettings.htMargins
-        : (marginSettings.margins) ? currMargins.topMargin = marginSettings.margins 
-        : currMargins.topMargin = 0;
+    (marginSettings.topMargin) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.topMargin
+        : (marginSettings.htMargins) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.htMargins
+        : (marginSettings.margins) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.margins 
+        : CURRENTMARGINSETTINGS.topMargin = 0;
 
-    (marginSettings.bottomMargin) ? currMargins.bottomMargin = marginSettings.bottomMargin
-        : (marginSettings.htMargins) ? currMargins.bottomMargin = marginSettings.htMargins
-        : (marginSettings.margins) ? currMargins.bottomMargin = marginSettings.margins 
-        : currMargins.bottomMargin = 0;
+    (marginSettings.bottomMargin) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.bottomMargin
+        : (marginSettings.htMargins) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.htMargins
+        : (marginSettings.margins) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.margins 
+        : CURRENTMARGINSETTINGS.bottomMargin = 0;
 
     function overlapCheck(dotArr, x, y) {
         let flag = false;
@@ -145,8 +149,8 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     let newDots = [];
     for (var i=0; i<colors.length; i++) {
         for (var j=0; j<count; j++) {
-            let the_X = (Math.round((Math.random() * (width - (currMargins.leftMargin + currMargins.rightMargin)))) + (currMargins.leftMargin));
-            let the_Y = (Math.round((Math.random() * (height - (currMargins.topMargin + currMargins.bottomMargin)))) + (currMargins.topMargin));
+            let the_X = (Math.round((Math.random() * (width - (CURRENTMARGINSETTINGS.leftMargin + CURRENTMARGINSETTINGS.rightMargin)))) + (CURRENTMARGINSETTINGS.leftMargin));
+            let the_Y = (Math.round((Math.random() * (height - (CURRENTMARGINSETTINGS.topMargin + CURRENTMARGINSETTINGS.bottomMargin)))) + (CURRENTMARGINSETTINGS.topMargin));
             if (overlapCheck(newDots, the_X, the_Y)) {
                 the_X = the_X + Math.floor((Math.random() * 3) + 3);
                 if (Math.random() > .5) { the_X = (the_X * -1) };
@@ -162,4 +166,33 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     }
     // console.table(newDots);
     return newDots;
+}
+
+// function for randomly repositioning dots; called after a dot is removed
+export function repositionDots (theDots) {
+    // console.log(CURRENTMARGINSETTINGS);
+    // console.table(theDots);
+    let theNewDots = [...theDots];
+    theNewDots.filter((aDot, idx) => {
+        // console.log(idx, aDot);
+        let xOffset = Math.round(((Math.random() * 2) - 1) * (Math.floor(Math.random() * 45) + 1));
+        let yOffset = Math.round(((Math.random() * 2) - 1) * (Math.floor(Math.random() * 45) + 1));
+
+        if (((aDot.x + xOffset) > DISPLAYSETTINGS.width - CURRENTMARGINSETTINGS.rightMargin) 
+        || ((aDot.x + xOffset) < CURRENTMARGINSETTINGS.leftMargin)) {
+            // console.log("xOffset!", idx);
+            xOffset = xOffset * (-1);
+        }
+        if (
+            ((aDot.y + yOffset) > DISPLAYSETTINGS.height - CURRENTMARGINSETTINGS.bottomMargin) 
+            || ((aDot.y + yOffset) < CURRENTMARGINSETTINGS.topMargin)) {
+            // console.log("yOffset!", idx);
+            yOffset = yOffset * (-1);
+        }
+        // console.log(`start: ${aDot.x}, ${aDot.y}; change: ${aDot.x + xOffset}, ${aDot.y + yOffset}`)
+        aDot.x = aDot.x + xOffset;
+        aDot.y = aDot.y + yOffset;
+    })
+    // console.table(theNewDots);
+    return theDots;
 }

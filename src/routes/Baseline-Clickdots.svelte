@@ -3,7 +3,8 @@
 	import { displaySettings, 
 		currentDotSettings, 
 		dotCount,
-		currentMapSettings
+		currentMapSettings,
+		repositionDots
 	} from '../stores/activity-store.js';
 	// console.clear();
 	// Scenario-specific settings and/or functions
@@ -38,11 +39,10 @@
 		let theID = parseInt(event.target.id);
 		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
 		// assignment will trigger svelte reactivity
-		$currentDotSettings.randomCoordinates = 
-			$currentDotSettings.randomCoordinates
-			.slice(0,theID)
-			.concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		let newRandomCoordinates = $currentDotSettings.randomCoordinates.slice(0,theID).concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+		$currentDotSettings.randomCoordinates = repositionDots(newRandomCoordinates);
 	}
+
 	function returnToMenu() {
 		// resetAppState();
 		$currentMapSettings = {
@@ -54,9 +54,6 @@
 	}
 </script>
 
-<div class="menu-btn">
-	<button on:click|preventDefault="{returnToMenu}">Menu</button>
-</div>
 <main>
 	<svg width="{$displaySettings.width}" height="{$displaySettings.height}" style="background-color:#D80000">
 		<image href="{backgroundImg}" height="{$displaySettings.height}" width="{$displaySettings.width}"/>
@@ -80,8 +77,11 @@
 		<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
 	{/if}
 </main>
+<div class="menu-btn">
+	<button on:click|preventDefault="{returnToMenu}">Menu</button>
+</div>
 <aside>
-    <p>DESCRIPTION OF SCENARIO</p>
+	<div>{$currentMapSettings.briefDescription} <span class="more-info">more information ...</span></div>
 </aside>
 
 <style>
@@ -97,7 +97,7 @@
 	}
 
 	.menu-btn {
-		text-align: right;
+		text-align: right
 	}
 
 	@media (min-width: 640px) {

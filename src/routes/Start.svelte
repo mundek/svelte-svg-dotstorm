@@ -35,6 +35,9 @@
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             $currentMapSettings.maxGeneration = selectedMap.maxGenerations;
             $currentMapSettings.reproduce = selectedMap.reproduce;
+            $currentMapSettings.briefDescription = selectedMap.briefDescription;
+            $currentMapSettings.longDescription = selectedMap.longDescription;
+
             replace("/" + $currentMapSettings.mapRoute);
         }
     }
