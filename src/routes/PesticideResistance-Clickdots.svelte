@@ -70,12 +70,15 @@
 
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
-		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
-		let theID = parseInt(event.target.id);
-		// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
-		// assignment will trigger svelte reactivity
-		let newRandomCoordinates = $currentDotSettings.randomCoordinates.slice(0,theID).concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
-		$currentDotSettings.randomCoordinates = repositionDots(newRandomCoordinates);
+		// scenario-specific check: do not remove dot if it is the pesticide resistant color
+		if(event.target.attributes.fill.nodeValue != $currentMapSettings.resistantDotColor) {
+			// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
+			let theID = parseInt(event.target.id);
+			// assign randomCoordinates the result of 'slicing' the mouse-click-targeted dot out of the array
+			// assignment will trigger svelte reactivity
+			let newRandomCoordinates = $currentDotSettings.randomCoordinates.slice(0,theID).concat($currentDotSettings.randomCoordinates.slice(theID+1,$currentDotSettings.randomCoordinates.length));
+			$currentDotSettings.randomCoordinates = repositionDots(newRandomCoordinates);
+		}
 	}
 
 	function returnToMenu() {

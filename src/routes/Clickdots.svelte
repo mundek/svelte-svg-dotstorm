@@ -90,7 +90,7 @@
 	let randomCoordinates = generateRandCoordinates(
 		$displaySettings.height
 		, $displaySettings.width
-		, $displaySettings.marginParams
+		, $currentMapSettings.margins
 		, $currentDotSettings.dotsPerColor
 		, $currentDotSettings.dotColors );
 	//console.table(randomCoordinates);

@@ -17,32 +17,34 @@
     function startActivity() {
         $currentDotSettings = {...$initialDotSettings};
         // generate the initial array of random coordinates
-        $currentDotSettings.randomCoordinates = generateRandCoordinates(
-            $displaySettings.height,
-            $displaySettings.width,
-            $displaySettings.marginParams,
-            $currentDotSettings.dotsPerColor,
-            $currentDotSettings.dotColors
-        );
+        // NOTE: passed settings come from multiple activity-store elements
         if(selectedMap) {
             $currentMapSettings.mapName = selectedMap.mapName;
             $currentMapSettings.mapFiles = selectedMap.mapFiles;
             $currentMapSettings.mapRoute = selectedMap.mapRoute;
-            if($currentMapSettings.margins) {
-                $currentMapSettings.margins = selectedMap.margins;
-            } else {
+            if(!selectedMap.marginArray) {
                 $currentMapSettings.margins = {
-                    htMargins: 10,
-                    wdMargins: 15
+                    htMargins: $displaySettings.defaultHeightMargins,
+                    wdMargins: $displaySettings.defaultWidthMargins
                 }
+            } else {
+                $currentMapSettings.marginArray = selectedMap.marginArray;
+                $currentMapSettings.margins = selectedMap.marginArray[1];
             }
-            $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
-            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             $currentMapSettings.maxGeneration = selectedMap.maxGenerations;
             $currentMapSettings.reproduce = selectedMap.reproduce;
             $currentMapSettings.briefDescription = selectedMap.briefDescription;
             $currentMapSettings.longDescription = selectedMap.longDescription;
 
+            $currentDotSettings.randomCoordinates = generateRandCoordinates(
+                $displaySettings.height,
+                $displaySettings.width,
+                $currentMapSettings.margins,
+                $currentDotSettings.dotsPerColor,
+                $currentDotSettings.dotColors
+            );
+            $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
+            $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             replace("/" + $currentMapSettings.mapRoute);
         }
     }

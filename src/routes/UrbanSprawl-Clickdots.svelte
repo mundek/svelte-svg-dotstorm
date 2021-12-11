@@ -10,8 +10,8 @@
 
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
-	$displaySettings.marginParams = $currentMapSettings.margins[$currentMapSettings.currentGeneration];
-	// console.log($currentMapSettings.margins[$currentMapSettings.currentGeneration]);
+	$currentMapSettings.margins = $currentMapSettings.marginArray[$currentMapSettings.currentGeneration];
+	// console.log($currentMapSettings.marginArray[$currentMapSettings.currentGeneration]);
 
 	// Router utility function
 	import { replace } from 'svelte-spa-router';

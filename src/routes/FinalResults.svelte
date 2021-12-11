@@ -2,12 +2,19 @@
 	import { replace } from 'svelte-spa-router';
 	import Chart from '../components/LineChart.svelte';
 	// activity-store data objects and function
-	import { currentMapSettings,
+	import { displaySettings,
+		currentMapSettings,
+		currentDotSettings,
 		completedRoutes,
 		chartData
         } from '../stores/activity-store.js';
 	// console.clear();
 	// console.table($chartData);
+		// In case of browser re-load, return to Start (home/default) route
+	if (!$currentDotSettings.dotRadius) {
+		replace("/");
+	}
+
 	let finalData = [...$chartData];
 
     function restartActivity() {
@@ -18,6 +25,8 @@
 			mapRoute: "",
 			briefDescription: "",
 			mapFiles: [],
+			marginArray: [],
+    		margins: [],
 			// state settings for activity
 			currentColors: [],
 			currentDotCounts: [],
@@ -33,8 +42,7 @@
 </script>
 
 <body>
-	<h1>THE FINAL RESULTS</h1>
-	<h2>{$currentMapSettings.mapName}</h2>
+	<h1>FINAL RESULTS: {$currentMapSettings.mapName}</h1>
 	<div style="width: 600px; height: 375px"><Chart/></div>
 	<hr/>
 	<table>

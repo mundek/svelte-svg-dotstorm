@@ -23,7 +23,7 @@ export let mapObjects = [
         mapName: "Urban Sprawl Scenario",
         mapRoute: "urban-sprawl",
         mapFiles: ["NOMAP", "MAP-autumn.forest.jpg", "MAP-autumn.forest-50pct-urban.jpg", "MAP-autumn.forest-25pct-urban.jpg"],
-        margins: [
+        marginArray: [
             { leftMargin: 0, rightMargin: 0, topMargin: 0, bottomMargin: 0 }, 
             { leftMargin: 10, rightMargin: 10, topMargin: 10, bottomMargin: 10 }, 
             { leftMargin: 200, rightMargin: 200, topMargin: 10, bottomMargin: 10 }, 

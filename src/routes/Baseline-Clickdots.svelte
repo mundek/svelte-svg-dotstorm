@@ -18,7 +18,6 @@
 	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
 	// console.log(currGenDotCount);
 	// In case of browser re-load, return to Start (home/default) route
-	// TODO: In planned multi-map, multi-generational implementation, add store variables to maintain state (progress) through maps and/or generations
 	if (!$currentDotSettings.dotRadius) {
 		replace("/");
 	}

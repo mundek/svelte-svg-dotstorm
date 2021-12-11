@@ -6,11 +6,8 @@ import { mapObjects } from './mapObjects.js';
 const DISPLAYSETTINGS = {
     width: 800,
     height: 600,
-    marginParams: {
-        htMargins: 10,
-        wdMargins: 15, // specific margin settings also available
-        // leftMargin: 200 // wdMargins and htMargins (left/right and top/bottom, respectively)
-    },
+    defaultHeightMargins: 15,
+    defaultWidthMargins: 10,
     debugging: false
 }
 
@@ -26,6 +23,7 @@ let CURRENTMAPSETTINGS = {
     briefDescription: "",
     longDescription: "",
     mapFiles: [],
+    marginArray: [],
     margins: [],
     // state settings for activity
     currentColors: [],
@@ -49,7 +47,6 @@ const INITIALDOTSETTINGS = {
     ],
     dotRadius: 8,
     dotsPerColor: 5,
-    randomCoordinates: []
 }
 
 const CURRENTDOTSETTINGS = {
@@ -118,44 +115,50 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
     (marginSettings.leftMargin) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.leftMargin
         : (marginSettings.wdMargins) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.wdMargins
         : (marginSettings.margins) ? CURRENTMARGINSETTINGS.leftMargin = marginSettings.margins 
-        : CURRENTMARGINSETTINGS.leftMargin = 0;
+        : CURRENTMARGINSETTINGS.leftMargin = DISPLAYSETTINGS.defaultWidthMargins;
 
     (marginSettings.rightMargin) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.rightMargin
         : (marginSettings.wdMargins) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.wdMargins
         : (marginSettings.margins) ? CURRENTMARGINSETTINGS.rightMargin = marginSettings.margins 
-        : CURRENTMARGINSETTINGS.rightMargin = 0;
+        : CURRENTMARGINSETTINGS.rightMargin = DISPLAYSETTINGS.defaultWidthMargins;
 
     (marginSettings.topMargin) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.topMargin
         : (marginSettings.htMargins) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.htMargins
         : (marginSettings.margins) ? CURRENTMARGINSETTINGS.topMargin = marginSettings.margins 
-        : CURRENTMARGINSETTINGS.topMargin = 0;
+        : CURRENTMARGINSETTINGS.topMargin = DISPLAYSETTINGS.defaultHeightMargins;
 
     (marginSettings.bottomMargin) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.bottomMargin
         : (marginSettings.htMargins) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.htMargins
         : (marginSettings.margins) ? CURRENTMARGINSETTINGS.bottomMargin = marginSettings.margins 
-        : CURRENTMARGINSETTINGS.bottomMargin = 0;
+        : CURRENTMARGINSETTINGS.bottomMargin = DISPLAYSETTINGS.defaultHeightMargins;
 
     function overlapCheck(dotArr, x, y) {
-        let flag = false;
         dotArr.forEach((item) => {
             if(item.x === x && item.y === y) {
-                flag = true;
+                return true;
             }
-            return flag;
+            return false;
         });
     }
     // generate the same number of dots for each color passed in, giving each dot random coordinates
-    // NOTE: No checking for full or partial overlap
     let newDots = [];
+    let workingWidth = width - 8;
+    let workingHeight = height - 8;
     for (var i=0; i<colors.length; i++) {
         for (var j=0; j<count; j++) {
-            let the_X = (Math.round((Math.random() * (width - (CURRENTMARGINSETTINGS.leftMargin + CURRENTMARGINSETTINGS.rightMargin)))) + (CURRENTMARGINSETTINGS.leftMargin));
-            let the_Y = (Math.round((Math.random() * (height - (CURRENTMARGINSETTINGS.topMargin + CURRENTMARGINSETTINGS.bottomMargin)))) + (CURRENTMARGINSETTINGS.topMargin));
+            let the_X = (Math.round((Math.random() * (workingWidth - (CURRENTMARGINSETTINGS.leftMargin + CURRENTMARGINSETTINGS.rightMargin)))) + (CURRENTMARGINSETTINGS.leftMargin));
+            let the_Y = (Math.round((Math.random() * (workingHeight - (CURRENTMARGINSETTINGS.topMargin + CURRENTMARGINSETTINGS.bottomMargin)))) + (CURRENTMARGINSETTINGS.topMargin));
             if (overlapCheck(newDots, the_X, the_Y)) {
-                the_X = the_X + Math.floor((Math.random() * 3) + 3);
-                if (Math.random() > .5) { the_X = (the_X * -1) };
-                the_y = the_y + Math.floor((Math.random() * 3) + 3);
-                if (Math.random() > .5) { the_Y = (the_Y * -1) };
+                if (Math.random() > .5) {
+                    the_X = the_X + Math.floor((Math.random() * 3) + 3);
+                } else {
+                    the_X = the_X - Math.floor((Math.random() * 3) + 3);
+                }
+                if (Math.random() > .5) {
+                    the_y = the_y + Math.floor((Math.random() * 3) + 3);
+                } else {
+                    the_y = the_y - Math.floor((Math.random() * 3) + 3);
+                }
             }
             newDots.push({
                 x: the_X, 
@@ -170,7 +173,6 @@ export function generateRandCoordinates (height, width, marginSettings, count, c
 
 // function for randomly repositioning dots; called after a dot is removed
 export function repositionDots (theDots) {
-    console.log(CURRENTMARGINSETTINGS);
     // console.table(theDots);
     let theNewDots = [...theDots];
     theNewDots.filter((aDot, idx) => {
@@ -179,19 +181,19 @@ export function repositionDots (theDots) {
         let yOffset = Math.round(((Math.random() * 2) - 1) * (Math.floor(Math.random() * 45) + 1));
 
         if ((aDot.x + xOffset) > DISPLAYSETTINGS.width - CURRENTMARGINSETTINGS.rightMargin) {
-            console.log("off right", idx);
+            // console.log("off right", idx);
             xOffset = xOffset * -1;
         } else if ((aDot.x + xOffset) < CURRENTMARGINSETTINGS.leftMargin) {
-            console.log("off left", idx);
+            // console.log("off left", idx);
             xOffset = xOffset * -1;
         } else {
             aDot.x = aDot.x + xOffset;
         }
         if ((aDot.y + yOffset) > DISPLAYSETTINGS.height - CURRENTMARGINSETTINGS.bottomMargin) {
-            console.log("off bottom", idx);
+            // console.log("off bottom", idx);
             yOffset = yOffset * -1;
         } else if ((aDot.y + yOffset) < CURRENTMARGINSETTINGS.topMargin) {
-            console.log("off top", idx);
+            // console.log("off top", idx);
             yOffset = yOffset * -1;
         } else {
             aDot.y = aDot.y + yOffset;

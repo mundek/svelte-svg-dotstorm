@@ -8,6 +8,9 @@
         generateRandCoordinates, 
         currentMapSettings
     } from '../stores/activity-store.js';
+    if (!$currentDotSettings.dotRadius) {
+		replace("/");
+	}
     // console.clear();
     // console.log("curGen: " + $currentMapSettings.currentGeneration);
     // console.log("maxGen: " + $currentMapSettings.maxGeneration);
@@ -19,21 +22,28 @@
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
     function continueActivity() {
-        if ($currentMapSettings.currentGeneration < $currentMapSettings.maxGeneration) {
+        if ($currentMapSettings.currentGeneration >= $currentMapSettings.maxGeneration) {
+            replace("/finalResults");
+        } else {
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
+            if($currentMapSettings.marginArray.length > 0) {
+                $currentMapSettings.margins = $currentMapSettings.marginArray[$currentMapSettings.currentGeneration];
+            } else {
+                $currentMapSettings.margins = {
+                    htMargins: $displaySettings.defaultHeightMargins,
+                    wdMargins: $displaySettings.defaultWidthMargins
+                }
+            }
             let newRandCoords = [];
             // console.log($dotCount);
-            if($currentMapSettings.margins) {
-                $displaySettings.marginParams 
-                    = $currentMapSettings.margins[$currentMapSettings.currentGeneration];
-            }
+
             if ($currentMapSettings.reproduce) {
                 for (let item in $dotCount) {
                     // console.log(item, $dotCount[item]);
                     newRandCoords = newRandCoords.concat(generateRandCoordinates(
                         $displaySettings.height,
                         $displaySettings.width,
-                        $displaySettings.marginParams,
+                        $currentMapSettings.margins,
                         (parseInt($dotCount[item]) * ($currentMapSettings.genMultiplier)),
                         [item]
                     ));
@@ -43,8 +53,6 @@
             // console.table($currentDotSettings.randomCoordinates);
             // console.table($currentMapSettings);
             replace("/" + $currentMapSettings.mapRoute);
-        } else {
-            replace("/finalResults");
         }
     }
 </script>
