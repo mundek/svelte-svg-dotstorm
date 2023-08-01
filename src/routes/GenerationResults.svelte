@@ -11,6 +11,15 @@
     if (!$currentDotSettings.dotRadius) {
 		replace("/");
 	}
+
+        // 07-31-2023 editing below
+	$: {
+			if ($currentMapSettings.isSingleColor) {
+				continueActivity();
+			}
+		}
+		// 07-31-2023 editing above
+
     // console.clear();
     // console.log("curGen: " + $currentMapSettings.currentGeneration);
     // console.log("maxGen: " + $currentMapSettings.maxGeneration);
@@ -74,6 +83,7 @@
             <button on:click|preventDefault="{continueActivity}">Final Results</button>
         {/if}
     </form>
+    <p>isSingleColor: {$currentMapSettings.isSingleColor}</p>
 </main>
 
 <style>

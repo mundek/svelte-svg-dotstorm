@@ -8,7 +8,7 @@ const DISPLAYSETTINGS = {
     height: 600,
     defaultHeightMargins: 15,
     defaultWidthMargins: 10,
-    debugging: false
+    debugging: true
 }
 
 const COMPLETEDROUTES = {
@@ -33,7 +33,8 @@ let CURRENTMAPSETTINGS = {
     currentGeneration: 0,
     resistantDotColor: "",
     reproduce: true,
-    genMultiplier: 5
+    genMultiplier: 3,
+    isSingleColor: false
 }
 
 // configure initial settings here
@@ -45,8 +46,8 @@ const INITIALDOTSETTINGS = {
         "gold", "darkturquoise", 
         "lawngreen", "indigo"
     ],
-    dotRadius: 8,
-    dotsPerColor: 5,
+    dotRadius: 13,
+    dotsPerColor: 3,
 }
 
 const CURRENTDOTSETTINGS = {
@@ -66,7 +67,7 @@ export const currentDotSettings = writable(CURRENTDOTSETTINGS);
 export const completedRoutes = writable(COMPLETEDROUTES);
 
 // derived value returns totals for each dot color
-export const dotCount = derived(currentDotSettings, $currentDotSettings => {
+export const dotCount = derived([currentDotSettings, currentMapSettings], ([$currentDotSettings, $currentMapSettings]) => {
     // component-internal array and associated reactive code to track current count of each dot color
     let counts = [];
 
@@ -80,6 +81,26 @@ export const dotCount = derived(currentDotSettings, $currentDotSettings => {
             counts[$currentDotSettings.randomCoordinates[i].color]++;
         }
     }
+    // TODO/DEVO: TEST FOR ONLY ONE COLOR REMAINING
+    if (Object.keys(counts).length > 0) {
+        let theValues = Object.values(counts);
+        let singleCheck = theValues.filter((aVal) => {
+            // console.log(aVal > 0);
+            if (aVal > 0) {
+                return true;    
+            }
+            return false;
+        });
+        // console.log(singleCheck, 'values', theValues, theValues.length);
+        // console.log(singleCheck);
+        if (singleCheck.length === 1) {
+            console.log("Only one color left!");
+            $currentMapSettings.isSingleColor = true;
+        } else {
+            $currentMapSettings.isSingleColor = false;
+        }
+    }
+    // TODO/DEVO ******
     return counts;
 });
 

@@ -29,9 +29,16 @@
 			* 100
 		);
 
-	$: if (percentRemaining <= $currentMapSettings.minRemaining) {
-		replace("/genResults");
-	}
+		// 07-31-2023 editing below
+	$: {
+			if (percentRemaining <= $currentMapSettings.minRemaining) {
+				replace("/genResults");
+			} else if ($currentMapSettings.isSingleColor) {
+				replace("/genResults");
+			}
+		}
+		// 07-31-2023 editing above
+
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
 		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array
@@ -57,6 +64,7 @@
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		{#if $displaySettings.debugging}
 			<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+			<!-- <p>isSingleColor: {$currentMapSettings.isSingleColor}</p> -->
 		{/if}
 		<p style="color:darkblue;font-size:1em;">Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining}% | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
