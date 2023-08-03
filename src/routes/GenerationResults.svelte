@@ -12,13 +12,16 @@
 		replace("/");
 	}
 
-        // 07-31-2023 editing below
-	$: {
-			if ($currentMapSettings.isSingleColor) {
-				continueActivity();
-			}
-		}
-		// 07-31-2023 editing above
+    console.log($dotCount);
+    let theStartingCount = $currentDotSettings.startingCount;
+    console.log(theStartingCount);
+
+    if($currentDotSettings.isSingleColor)  {
+        console.log($currentDotSettings.randomCoordinates);
+        let lastIndex = Math.ceil($currentDotSettings.startingCount * $currentMapSettings.minRemaining / 100);
+        console.log(lastIndex);
+        $currentDotSettings.randomCoordinates = $currentDotSettings.randomCoordinates.slice(0,lastIndex);
+    }
 
     // console.clear();
     // console.log("curGen: " + $currentMapSettings.currentGeneration);
@@ -27,6 +30,7 @@
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
     // console.table($currentMapSettings.survivalData);
     // console.log("reproduce: " + $currentMapSettings.reproduce);
+
 
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
@@ -47,8 +51,12 @@
             // console.log($dotCount);
 
             if ($currentMapSettings.reproduce) {
+                // 08-03-2023
+                // if ($dotCount.length === 1) {
+                //     console.log('dotCount', $dotCount);
+                // }
                 for (let item in $dotCount) {
-                    // console.log(item, $dotCount[item]);
+                    console.log(item, $dotCount[item]);
                     newRandCoords = newRandCoords.concat(generateRandCoordinates(
                         $displaySettings.height,
                         $displaySettings.width,
@@ -64,6 +72,13 @@
             replace("/" + $currentMapSettings.mapRoute);
         }
     }
+
+    function logDotColors() {
+		// $currentDotSettings.dotColors.forEach((aColor) ==> {
+		// 	console.log($currentDotSettings.dotColors)
+		// }) 
+		console.table($dotCount);
+	}
 </script>
 
 <main>
@@ -83,7 +98,14 @@
             <button on:click|preventDefault="{continueActivity}">Final Results</button>
         {/if}
     </form>
-    <p>isSingleColor: {$currentMapSettings.isSingleColor}</p>
+
+    <p>isSingleColor: {$currentDotSettings.isSingleColor}</p>
+
+    {#if $displaySettings.debugging}
+    <div class="menu-btn">
+	    <button on:click|preventDefault="{logDotColors}">Log dotColors</button>
+    </div>
+    {/if}
 </main>
 
 <style>

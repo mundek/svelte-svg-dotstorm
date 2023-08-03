@@ -33,8 +33,7 @@ let CURRENTMAPSETTINGS = {
     currentGeneration: 0,
     resistantDotColor: "",
     reproduce: true,
-    genMultiplier: 3,
-    isSingleColor: false
+    genMultiplier: 3
 }
 
 // configure initial settings here
@@ -54,7 +53,9 @@ const CURRENTDOTSETTINGS = {
     dotColors: [],
     dotRadius: 0,
     dotsPerColor: 0,
-    randomCoordinates: []
+    randomCoordinates: [],
+    isSingleColor: false,
+    startingCount: 0
 }
 
 // internal margin settings
@@ -67,7 +68,7 @@ export const currentDotSettings = writable(CURRENTDOTSETTINGS);
 export const completedRoutes = writable(COMPLETEDROUTES);
 
 // derived value returns totals for each dot color
-export const dotCount = derived([currentDotSettings, currentMapSettings], ([$currentDotSettings, $currentMapSettings]) => {
+export const dotCount = derived(currentDotSettings, ($currentDotSettings) => {
     // component-internal array and associated reactive code to track current count of each dot color
     let counts = [];
 
@@ -95,9 +96,9 @@ export const dotCount = derived([currentDotSettings, currentMapSettings], ([$cur
         // console.log(singleCheck);
         if (singleCheck.length === 1) {
             console.log("Only one color left!");
-            $currentMapSettings.isSingleColor = true;
+            $currentDotSettings.isSingleColor = true;
         } else {
-            $currentMapSettings.isSingleColor = false;
+            $currentDotSettings.isSingleColor = false;
         }
     }
     // TODO/DEVO ******

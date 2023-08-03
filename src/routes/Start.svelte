@@ -43,6 +43,7 @@
                 $currentDotSettings.dotsPerColor,
                 $currentDotSettings.dotColors
             );
+            $currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
             $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
             $currentMapSettings.currentGeneration = $currentMapSettings.currentGeneration + 1;
             replace("/" + $currentMapSettings.mapRoute);
@@ -70,7 +71,7 @@
             {/if}
         </select>
         <button on:click|preventDefault="{startActivity}">Start Activity</button>
-        <h3>Map Description</h3>
+        <h3>Map Description - {selectedMap ? selectedMap.mapName : ''}</h3>
         {@html selectedMap ? selectedMap.longDescription : '[waiting...]'}
     </form>
 </main>

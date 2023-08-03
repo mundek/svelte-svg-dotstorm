@@ -1,4 +1,7 @@
 <script>
+	// Router utility function
+	import { replace } from 'svelte-spa-router';
+
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
@@ -11,8 +14,8 @@
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// console.log($currentMapSettings.currentGeneration);
 
-	// Router utility function
-	import { replace } from 'svelte-spa-router';
+	$currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
+	console.log($currentDotSettings.startingCount);
 	
 	// set current generation's starting dot count
 	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
@@ -23,17 +26,29 @@
 	}
 
 	// Track rounded integer percentage of dots remaining out of the current generation's starting total
-	$: percentRemaining = Math.round(
+	// $: percentRemaining = Math.round(
+	// 		$currentDotSettings.randomCoordinates.length 
+	// 		/ currGenDotCount 
+	// 		* 100
+	// 	);
+
+		// 07-31-2023 --> 08-03-2023 editing below
+		// end current generation in two cases:
+		//	-- when percentage of remaining dots is equal/below minRemaining setting
+		//  -- when there is only one color left in the current generation
+
+		let percentRemaining = 0;
+	$: {	
+			percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
 			/ currGenDotCount 
-			* 100
-		);
+			* 100);
 
-		// 07-31-2023 editing below
-	$: {
+			console.log($currentDotSettings.isSingleColor);
+			// console.log($currentDotSettings.randomCoordinates)
 			if (percentRemaining <= $currentMapSettings.minRemaining) {
 				replace("/genResults");
-			} else if ($currentMapSettings.isSingleColor) {
+			} else if ($currentDotSettings.isSingleColor) {
 				replace("/genResults");
 			}
 		}
@@ -58,13 +73,20 @@
 		location.reload();
 		// replace("/");
 	}
+
+	// <p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
+	function logDotColors() {
+		// $currentDotSettings.dotColors.forEach((aColor) ==> {
+		// 	console.log($currentDotSettings.dotColors)
+		// }) 
+		console.table($dotCount);
+	}
 </script>
 
 <main>
 	{#if $currentDotSettings.randomCoordinates.length > 0}
 		{#if $displaySettings.debugging}
 			<p>{#each $currentDotSettings.dotColors as aColor, index}#{index}&nbsp;<span style="color: {aColor}; font-weight: bold">{aColor.toUpperCase()}:&nbsp;</span>{$dotCount[aColor]}{#if (index < ($currentDotSettings.dotColors.length - 1))} &nbsp;<strong>|</strong> {/if}{/each}</p>
-			<!-- <p>isSingleColor: {$currentMapSettings.isSingleColor}</p> -->
 		{/if}
 		<p style="color:darkblue;font-size:1em;">Total Dots Remaining: {$currentDotSettings.randomCoordinates.length} ({percentRemaining}%) | Target: {$currentMapSettings.minRemaining}% | Generation: {$currentMapSettings.currentGeneration}</p>
 	{:else}
@@ -92,6 +114,12 @@
 <div class="menu-btn">
 	<button on:click|preventDefault="{returnToMenu}">Return to Menu</button>
 </div>
+
+{#if $displaySettings.debugging}
+<div class="menu-btn">
+	<button on:click|preventDefault="{logDotColors}">Log dotColors</button>
+</div>
+{/if}
 
 <style>
 	main {
