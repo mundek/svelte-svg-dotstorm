@@ -25,16 +25,28 @@
 		replace("/");
 	}
 
-	// Track rounded integer percentage of dots remaining out of the current generation's starting total
-	$: percentRemaining = Math.round(
+	$currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
+	console.log($currentDotSettings.startingCount);
+
+		// end current generation in two cases:
+		//	-- when percentage of remaining dots is equal/below minRemaining setting
+		//  -- when there is only one color left in the current generation
+
+		let percentRemaining = 0;
+	$: {	
+			percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
 			/ currGenDotCount 
-			* 100
-		);
+			* 100);
 
-	$: if (percentRemaining <= $currentMapSettings.minRemaining) {
-		replace("/genResults");
-	}
+			console.log($currentDotSettings.isSingleColor);
+			// console.log($currentDotSettings.randomCoordinates)
+			if (percentRemaining <= $currentMapSettings.minRemaining) {
+				replace("/genResults");
+			} else if ($currentDotSettings.isSingleColor) {
+				replace("/genResults");
+			}
+		}
 
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
