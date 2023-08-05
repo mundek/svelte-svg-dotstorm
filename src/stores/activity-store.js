@@ -33,7 +33,7 @@ let CURRENTMAPSETTINGS = {
     currentGeneration: 0,
     resistantDotColor: "",
     reproduce: true,
-    genMultiplier: 4
+    genMultiplier: 5
 }
 
 // configure initial settings here
@@ -45,8 +45,8 @@ const INITIALDOTSETTINGS = {
         "gold", "darkturquoise", 
         "lawngreen", "indigo"
     ],
-    dotRadius: 13,
-    dotsPerColor: 4,
+    dotRadius: 8,
+    dotsPerColor: 5,
 }
 
 const CURRENTDOTSETTINGS = {

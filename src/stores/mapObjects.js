@@ -32,7 +32,7 @@ export let mapObjects = [
         maxGenerations: 3,
         reproduce: true,
         briefDescription: "A forest shrinking from urbanization",
-        longDescription: "Urban sprawl is a result of cities spreading into the surrounding countryside. Habitat is torn up and replaced with asphalt, concrete and metals. This causes a decrease in the size of habitat for living organisms and can result in a decrease in biodiversity as organisms increase in population density and compete for limited resources more. This scenario explores how natural selection is affected by human city growth."
+        longDescription: "Urban sprawl is a result of cities spreading into the surrounding countryside. Habitat is torn up and replaced with asphalt, concrete and metals. This causes a decrease in the size of habitat for living organisms and can result in a decrease in biodiversity as organisms increase in population density and increase in their competition for limited resources. This scenario explores how natural selection is affected by human city growth."
     },
     {
         mapName: "Exotic Species Scenario",
