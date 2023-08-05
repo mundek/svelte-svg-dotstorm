@@ -8,7 +8,7 @@ const DISPLAYSETTINGS = {
     height: 600,
     defaultHeightMargins: 15,
     defaultWidthMargins: 10,
-    debugging: true
+    debugging: false
 }
 
 const COMPLETEDROUTES = {
