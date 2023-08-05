@@ -1,7 +1,4 @@
 <script>
-	// Router utility function
-	import { replace } from 'svelte-spa-router';
-
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
@@ -13,6 +10,9 @@
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
 	// console.log($currentMapSettings.currentGeneration);
+
+	// Router utility function
+	import { replace } from 'svelte-spa-router';
 
 	$currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
 	console.log($currentDotSettings.startingCount);

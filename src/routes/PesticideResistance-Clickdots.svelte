@@ -1,4 +1,10 @@
 <script>
+
+/** TODO:
+ * Make sure that 'culling function' DOES *NOT* apply when going to the next generation.
+ * They're resistant; clicking won't kill them.
+ * */
+
 	// activity-store data objects and function
 	import { displaySettings, 
 		currentDotSettings, 
@@ -14,7 +20,7 @@
 	import { replace } from 'svelte-spa-router';
 
 	// initialize flag for setting pesticide resistance for last two generations
-	let leastColor = "abcdefg123";
+	let leastColor = "";
 	if($currentMapSettings.currentGeneration == 4) {
 		// console.table($currentMapSettings.survivalData[2]);
 		let lowCount = 9999999; // arbitrarily high, and unlikely, value
@@ -23,13 +29,16 @@
 			if(($currentMapSettings.survivalData[3][item] < lowCount) && ($currentMapSettings.survivalData[3][item] > 0)) {
 				lowCount = $currentMapSettings.survivalData[3][item];
 				leastColor = item;
+				$currentMapSettings.resistantDotColor = leastColor;
 			}
 			// console.log(leastColor, lowCount);
 		});
-		$currentMapSettings.resistantDotColor = leastColor;
 	}
 
-	$dotCount.forEach(item => console.log(item));
+	// $dotCount.forEach(item => console.log(item));
+
+	$currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
+	console.log($currentDotSettings.startingCount);
 
 	// set current generation's starting dot count
 	let currGenDotCount = $currentDotSettings.randomCoordinates.length;
@@ -39,16 +48,21 @@
 		replace("/");
 	}
 
-	// Track rounded integer percentage of dots remaining out of the current generation's starting total
-	$: percentRemaining = Math.round(
+	let percentRemaining = 0;
+	$: {	
+			percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
 			/ currGenDotCount 
-			* 100
-		);
+			* 100);
 
-	$: if ((percentRemaining <= $currentMapSettings.minRemaining)) {
-		replace("/genResults");
-	}
+			console.log($currentDotSettings.isSingleColor);
+			// console.log($currentDotSettings.randomCoordinates)
+			if (percentRemaining <= $currentMapSettings.minRemaining) {
+				replace("/genResults");
+			} else if ($currentDotSettings.isSingleColor) {
+				replace("/genResults");
+			}
+		}
 
 	let remainingColors = Object.values($dotCount).length;
 	$: if (remainingColors < 2) {

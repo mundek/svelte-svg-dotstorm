@@ -16,13 +16,6 @@
     let theStartingCount = $currentDotSettings.startingCount;
     console.log(theStartingCount);
 
-    if($currentDotSettings.isSingleColor)  {
-        console.log($currentDotSettings.randomCoordinates);
-        let lastIndex = Math.ceil($currentDotSettings.startingCount * $currentMapSettings.minRemaining / 100);
-        console.log(lastIndex);
-        $currentDotSettings.randomCoordinates = $currentDotSettings.randomCoordinates.slice(0,lastIndex);
-    }
-
     // console.clear();
     // console.log("curGen: " + $currentMapSettings.currentGeneration);
     // console.log("maxGen: " + $currentMapSettings.maxGeneration);
@@ -30,6 +23,18 @@
     $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
     // console.table($currentMapSettings.survivalData);
     // console.log("reproduce: " + $currentMapSettings.reproduce);
+
+
+    if($currentDotSettings.isSingleColor)  {
+        console.log($currentDotSettings.randomCoordinates);
+        console.log($currentMapSettings.currentGeneration, $currentMapSettings.resistantDotColor, $currentMapSettings.resistantDotColor.length);
+        if(!$currentMapSettings.resistantDotColor.length > 0) {
+            let lastIndex = Math.ceil($currentDotSettings.startingCount * $currentMapSettings.minRemaining / 100);
+            console.log(lastIndex);
+            $currentDotSettings.randomCoordinates = $currentDotSettings.randomCoordinates.slice(0,lastIndex);
+        }
+        console.log($currentDotSettings.randomCoordinates);
+    }
 
 
     // Continue to next generation (or final results)
