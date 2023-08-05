@@ -19,15 +19,13 @@
     // console.clear();
     // console.log("curGen: " + $currentMapSettings.currentGeneration);
     // console.log("maxGen: " + $currentMapSettings.maxGeneration);
-    // add current generation's dot count to the survival data
-    $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
-    // console.table($currentMapSettings.survivalData);
     // console.log("reproduce: " + $currentMapSettings.reproduce);
 
 
     if($currentDotSettings.isSingleColor)  {
         console.log($currentDotSettings.randomCoordinates);
         console.log($currentMapSettings.currentGeneration, $currentMapSettings.resistantDotColor, $currentMapSettings.resistantDotColor.length);
+
         if(!$currentMapSettings.resistantDotColor.length > 0) {
             let lastIndex = Math.ceil($currentDotSettings.startingCount * $currentMapSettings.minRemaining / 100);
             console.log(lastIndex);
@@ -36,6 +34,10 @@
         console.log($currentDotSettings.randomCoordinates);
     }
 
+    // add current generation's dot count to the survival data
+    $currentMapSettings.survivalData[$currentMapSettings.currentGeneration] = $dotCount;
+    // console.table($currentMapSettings.survivalData);
+    
 
     // Continue to next generation (or final results)
     // TODO: Revise to display "next generation" and "final results" button and break continueActivity() into similarly-named functions
