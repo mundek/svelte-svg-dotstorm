@@ -9,9 +9,13 @@
 	// console.clear();
 	// Scenario-specific settings and/or functions
 	let backgroundImg = "./images/" + $currentMapSettings.mapFiles[$currentMapSettings.currentGeneration];
+
 	// Router utility function
 	import { replace } from 'svelte-spa-router';
 	
+	$currentDotSettings.startingCount = $currentDotSettings.randomCoordinates.length;
+	console.log($currentDotSettings.startingCount);
+
 	// set current generation's starting dot count
 	var currGenDotCount = $currentDotSettings.randomCoordinates.length;
 	// console.log(currGenDotCount);
@@ -21,16 +25,22 @@
 		replace("/");
 	}
 
-	// Track rounded integer percentage of dots remaining out of the current generation's starting total
-	$: percentRemaining = Math.round(
+	let percentRemaining = 0;
+	$: {	
+			percentRemaining = Math.round(
 			$currentDotSettings.randomCoordinates.length 
 			/ currGenDotCount 
-			* 100
-		);
+			* 100);
 
-	$: if (percentRemaining <= $currentMapSettings.minRemaining) {
-		replace("/genResults");
-	}
+			console.log($currentDotSettings.isSingleColor);
+			// console.log($currentDotSettings.randomCoordinates)
+			if (percentRemaining <= $currentMapSettings.minRemaining) {
+				replace("/genResults");
+			} else if ($currentDotSettings.isSingleColor) {
+				replace("/genResults");
+			}
+		}
+
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
 		// use SVG dot's current ID (set in the HTML {#each} loop) to remove it from the array of dots by updating/mutating component-internal 'randomCoordinates' array with the results of concatenating two slices of said array

@@ -25,14 +25,6 @@
 		replace("/");
 	}
 
-	// Track rounded integer percentage of dots remaining out of the current generation's starting total
-	// $: percentRemaining = Math.round(
-	// 		$currentDotSettings.randomCoordinates.length 
-	// 		/ currGenDotCount 
-	// 		* 100
-	// 	);
-
-		// 07-31-2023 --> 08-03-2023 editing below
 		// end current generation in two cases:
 		//	-- when percentage of remaining dots is equal/below minRemaining setting
 		//  -- when there is only one color left in the current generation
@@ -52,7 +44,6 @@
 				replace("/genResults");
 			}
 		}
-		// 07-31-2023 editing above
 
 	// click events on SVG dots call the removeDot function
 	function removeDot(event) {
